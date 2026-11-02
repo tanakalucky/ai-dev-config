@@ -98,8 +98,50 @@ class CloudflareDeployTests(unittest.TestCase):
                         "二重 deploy", "決められない点だけ質問", "CLI の version/help",
                         "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "秘密値は含めない",
                         "同じ preview の更新", "専用資源の cleanup", "ローカル配信を基本",
+                        "コメント管理", "同じコメントの更新", "コメントの削除済み表示",
                         "通常コード", "AAA", "独立3観点", "dry の計画/出力確認",
                         "実デプロイ成功とは報告しない", "検証のために無断で merge しない")
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+
+        # 検証 (Assert)
+        for requirement in requirements:
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, content)
+
+    def test_copied_entrypoints_reach_comment_lifecycle_contract(self):
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = Path(directory).resolve()
+            copy_distribution(copied)
+            entries = [copied / host / "skills" / name / "SKILL.md"
+                       for host, name in ((".agents", "config-cloudflare-deploy"),
+                                          (".claude", "cloudflare-deploy"))]
+            rules = copied / ".ai-config/rules/cloudflare-deploy.md"
+
+            # 実行 (Act)
+            targets = [resolved_links(path) for path in entries]
+            content = rules.read_text(encoding="utf-8")
+
+            # 検証 (Assert)
+            for links in targets:
+                self.assertIn(rules, links)
+            for requirement in ("実デプロイ結果で確認した URL と対象 SHA", "対象 PR の専用 Bot コメント",
+                                "既存コメントは更新を基本", "cleanup 成功後", "削除済み表示",
+                                "cleanup 失敗・未確認時は削除済みとせず", "reopen 後の成功表示"):
+                with self.subTest(requirement=requirement):
+                    self.assertIn(requirement, content)
+
+    def test_comment_contract_preserves_ownership_freshness_and_token_boundary(self):
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/cloudflare-deploy.md"
+        requirements = ("対象 PR・専用マーカー・Bot の所有者 ID", "他者のコメントを書き換えない",
+                        "一覧の全ページ", "重複を作らない", "最新 head と成功 deploy の SHA",
+                        "失敗・未作成・古い head", "最新成功として投稿しない",
+                        "コメント処理も deploy/cleanup と同じ直列化", "投稿失敗で cleanup を妨げず",
+                        "読み戻してから再試行", "最小の書込権限だけ", "token を未信頼 PR コードから分離",
+                        "投稿・更新は各タスクの承認範囲")
 
         # 実行 (Act)
         content = path.read_text(encoding="utf-8")

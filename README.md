@@ -62,6 +62,7 @@ Markdownリンクは自動includeとして扱わず、入口に明示的な読�
 
 Cloudflareの入口はアプリ構成を調べ、PRごとの`pr-番号`の作成・更新・close/merge後のcleanup、
 mainの成功CIからの本番反映を組み立てる。例: 「このアプリにCloudflareのPRプレビュー運用を導入して」。
+プレビューURLは対象PRの専用Botコメントで案内し、追加pushとcleanupに合わせて同じコメントを更新する。
 設定・Actions・処理・E2Eは各アプリに作成する。既存Worker配下のWorker Previewを優先し、
 異なる方式へ変更する場合は利用者に確認する。
 初期設定では対象account/Worker、必要なSecrets名と登録先、最小権限、previewと本番の資源を示す。
