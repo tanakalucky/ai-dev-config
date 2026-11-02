@@ -10,7 +10,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
-NAMES = ("clarify", "review", "review-correctness", "review-tests", "review-design")
+REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
+NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy")
 
 
 class LayoutTests(unittest.TestCase):
@@ -39,7 +40,7 @@ class LayoutTests(unittest.TestCase):
                     self.assertTrue(resolved.is_file())
 
     def test_both_hosts_have_all_entrypoints(self):
-        """既存の他skillとの共存を許し、配布対象5入口を検証する。"""
+        """既存の他skillとの共存を許し、配布対象の入口を検証する。"""
         # 準備 (Arrange)
         paths = [ROOT / f"{host}/skills/{prefix}{name}/SKILL.md"
                  for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES]
@@ -48,7 +49,7 @@ class LayoutTests(unittest.TestCase):
         entries = [(path, frontmatter(path), path.read_text(encoding="utf-8")) for path in paths]
 
         # 検証 (Assert)
-        self.assertEqual(len(entries), 10)
+        self.assertEqual(len(entries), 12)
         for path, metadata, content in entries:
             with self.subTest(entry=path.relative_to(ROOT)):
                 self.assertEqual(metadata["name"], path.parent.name)
@@ -58,7 +59,7 @@ class LayoutTests(unittest.TestCase):
     def test_claude_execution_settings_are_preserved(self):
         """既存Claudeのfork・モデル・待機・Write/Edit制限を維持する。"""
         # 準備 (Arrange)
-        paths = {name: ROOT / f".claude/skills/{name}/SKILL.md" for name in NAMES[1:]}
+        paths = {name: ROOT / f".claude/skills/{name}/SKILL.md" for name in REVIEW_NAMES}
 
         # 実行 (Act)
         entries = {name: frontmatter(path) for name, path in paths.items()}
@@ -83,14 +84,14 @@ class LayoutTests(unittest.TestCase):
         # 検証 (Assert)
         for name, metadata, links in entries:
             self.assertEqual(set(metadata), {"name", "description"})
-            if name != "clarify":
+            if name in REVIEW_NAMES:
                 self.assertIn(ROOT / ".agents/review-runtime.md", links)
 
     def test_each_host_reaches_the_same_policy_and_aspects(self):
         """両hostの入口が同一実体の共通方針・観点を参照する。"""
         # 準備 (Arrange)
         paths = [(host, prefix, name, ROOT / f"{host}/skills/{prefix}{name}/SKILL.md")
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES[1:]]
+                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in REVIEW_NAMES]
 
         # 実行 (Act)
         entries = [(host, prefix, name, resolved_links(path)) for host, prefix, name, path in paths]
@@ -101,7 +102,7 @@ class LayoutTests(unittest.TestCase):
             if name == "review":
                 self.assertIn(ROOT / ".ai-config/review/workflow.md", links)
                 self.assertIn(ROOT / ".ai-config/review/rounds.md", links)
-                for aspect in NAMES[2:]:
+                for aspect in REVIEW_NAMES[1:]:
                     self.assertIn(ROOT / f"{host}/skills/{prefix}{aspect}/SKILL.md", links)
             else:
                 self.assertIn(ROOT / ".ai-config/review/reviewer.md", links)

@@ -21,6 +21,9 @@ Markdownリンクの自動展開を前提にせず、明示的に読む。見つ
 レビューを依頼された場合はClaude Codeの`/review`、Codexの`$config-review`を使う。
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
+Cloudflareの導入・変更では[デプロイ運用ルール](.ai-config/rules/cloudflare-deploy.md)を全文読む。
+Claude Codeの`/cloudflare-deploy`、Codexの`$config-cloudflare-deploy`から共通手順を使う。
+
 レビューと修正は[ラウンドの共通定義](.ai-config/review/rounds.md)を読んで進める。
 各ラウンドでは正確性/安全性・テスト・設計/可読性を独立した担当に各1回依頼して統合する。
 レビュー担当は報告のみ、修正とラウンド管理は実装担当が行う。

@@ -1,7 +1,7 @@
 # Claude Code / Codex 共通設定
 
 アプリのリポジトリへコピーして使う設定一式。生成処理や外部の設定リポジトリへの参照は不要。
-共通の指示は`AGENTS.md`、規約・認識合わせ・レビュー本文は`.ai-config/`で一元管理する。
+共通の指示は`AGENTS.md`、規約・認識合わせ・レビュー・デプロイ手順は`.ai-config/`で一元管理する。
 
 ```text
 AGENTS.md                      共通の作業指示
@@ -9,6 +9,8 @@ CLAUDE.md -> AGENTS.md          相対symlink
 .ai-config/
   rules/coding.md              コーディング規約
   rules/documentation.md       READMEの記載方針
+  rules/cloudflare-deploy.md   Cloudflareの運用ルール
+  workflows/cloudflare-deploy.md  アプリへの導入・変更手順
   workflows/clarify.md         認識合わせ
   review/
     policy.md                 制約・重大度・完了条件・出力形式
@@ -20,8 +22,8 @@ CLAUDE.md -> AGENTS.md          相対symlink
     design.md                 設計/可読性
 .agents/
   review-runtime.md           Codex固有のモデル・権限・委譲条件
-  skills/config-*/SKILL.md     Codexの薄い入口5本
-.claude/skills/*/SKILL.md       Claude Codeの薄い入口5本
+  skills/config-*/SKILL.md     Codexの薄い入口6本
+.claude/skills/*/SKILL.md       Claude Codeの薄い入口6本
 ```
 
 ## アプリへの配置
@@ -55,29 +57,22 @@ Markdownリンクは自動includeとして扱わず、入口に明示的な読�
 | --- | --- | --- |
 | 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
 | レビュー | `/review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
+| Cloudflare導入・変更 | `/cloudflare-deploy 依頼内容` | `$config-cloudflare-deploy 依頼内容` |
 | 3観点 | Skill呼出で`review-correctness`・`review-tests`・`review-design` | 独立した子agentが`config-review-correctness`・`config-review-tests`・`config-review-design`を読む |
 
-Claudeの観点担当には従来の`model: sonnet`、`context: fork`、`background: false`を保存した。
-レビュー入口と観点担当は`disallowed-tools: Write, Edit`を維持し、`allowed-tools`は追加しない。
-これらはClaude固有の設定であり、shellや外部サービスへの書込まで防ぐ完全なsandboxではない。
+Cloudflareの入口はアプリ構成を調べ、PRごとの`pr-番号`の作成・更新・close/merge後のcleanup、
+mainの成功CIからの本番反映を組み立てる。例: 「このアプリにCloudflareのPRプレビュー運用を導入して」。
+設定・Actions・処理・E2Eは各アプリに作成する。既存Worker配下のWorker Previewを優先し、
+異なる方式へ変更する場合は利用者に確認する。
+初期設定では対象account/Worker、必要なSecrets名と登録先、最小権限、previewと本番の資源を示す。
+実デプロイ・削除・credential登録は各タスクの承認範囲で行う。
 
-Codexのモデル・推論量はユーザー指定、未指定なら実行セッションの設定を継承する。
-利用できない指定は黙って置き換えず未完了とする。モデル名は固定しない。
-CLIを使う場合に読取専用sandboxで起動する任意の例:
-
-```sh
-codex --sandbox read-only --ask-for-approval on-request
-# 非対話実行では、昇格要求を拒否するneverも利用できる
-codex exec --sandbox read-only -c 'approval_policy="never"'
-```
-
-指定する場合は`--model <モデル名>`と`-c 'model_reasoning_effort="<推論量>"'`を追加する。
-親・子ともに共通レビュー方針の読取専用の運用を守り、既存のsandbox・認証・承認設定を変更しない。
-`read-only + never`はsandbox外への昇格を拒否する組合せであり、書込の自動承認ではない。
-`.agents/review-runtime.md`は指示であり、skillの読込だけでモデル・権限・子agent起動が設定されるわけではない。
-Codex組込みの子agentも利用でき、ネストしたCLI起動やOSによる書込拒否の実測は必須にしない。
-親・子の実効条件の未確認だけを理由に開始を中止せず、確認できない値は未確認と報告する。
-読取専用sandboxや外部変更ツールの無効化が保証されたとは扱わない。独立した委譲ができない観点は未完了とする。
+Claudeのレビュー担当は既存の`model: sonnet`・`context: fork`・`background: false`と
+`disallowed-tools: Write, Edit`を維持する。これは完全な書込拒否を保証するsandboxではない。
+Codexのモデル・推論量はユーザー指定、未指定ならセッションの設定を継承する。
+[Codexの実行条件](.agents/review-runtime.md)に従い、既存のsandbox・認証・承認設定は変更しない。
+独立した子agentでレビューし、ネストしたCLI起動やOSによる書込拒否の実測は必須にしない。
+実効条件の未確認だけを理由に開始を中止せず、確認できない値や委譲できない観点は区別して報告する。
 
 ## 共通方針の編集
 
@@ -91,16 +86,8 @@ Codex組込みの子agentも利用でき、ネストしたCLI起動やOSによ�
 未完了の明記、失敗した観点の自動再試行禁止は共通方針に定義している。
 生成スクリプトや生成物の再生成は不要。
 
-## 互換性と検証
+## 対応するツール
 
-公式仕様は[Codex AGENTS.md](https://developers.openai.com/codex/agent-configuration/agents-md)、
-[skills](https://developers.openai.com/codex/build-skills)、
-[subagents](https://developers.openai.com/codex/agent-configuration/subagents)、
-[Claude skills](https://code.claude.com/docs/en/skills)、
-[Claude memory](https://code.claude.com/docs/en/memory)を参照した。
-
-実動作試験は同一base・同一合成差分を持つ隔離コピーで行い、モデル・権限条件・結果・
-ファイル不変を[検証記録](.ai-config/validation/README.md)に記録する。
-静的な参照検証とCLIの実行結果を区別し、未実施・認証失敗を成功と扱わない。
-統合時の証拠照合を改善した[別ケース評価](.ai-config/validation/pagination.md)も記録した。
-両CLIの主要動作は確認できたが、Claudeの担当別実施報告に誤りが残り、全方針への適合は未達。
+入口の仕様は[Codex skills](https://developers.openai.com/codex/build-skills)、
+[Claude skills](https://code.claude.com/docs/en/skills)を参照。
+静的な参照・配置テストと、各CLIや実環境での動作検証は区別する。
