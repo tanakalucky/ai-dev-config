@@ -34,6 +34,8 @@ class LayoutTests(unittest.TestCase):
             self.assertEqual(claude.read_bytes(), (copied / "AGENTS.md").read_bytes())
             self.assertIn(".ai-config/rules/coding.md", local_links(copied / "AGENTS.md"))
             self.assertIn(".agents/review-runtime.md", local_links(copied / "AGENTS.md"))
+            self.assertFalse((copied / ".ai-config/validation").exists())
+            self.assertFalse((copied / "docs").exists())
             for path, link, resolved in links:
                 with self.subTest(source=path.relative_to(copied), target=link):
                     self.assertTrue(resolved.is_relative_to(copied))
@@ -116,18 +118,24 @@ class LayoutTests(unittest.TestCase):
                         "指定が利用できない場合は勝手に別の値へ置き換えず未完了",
                         "既存のsandbox・認証・承認設定を変更せず", "書込を許可する承認は行わない",
                         "子agentにも同じモデル・推論量と共通レビュー方針を渡す",
-                        "git diff --no-index -- /dev/null <path>", "未commitの現在の本文の代わりに使わない",
+                        "読取の開始順序と手段は[AGENTS.md]", "全文読んで適用する",
                         "独立した子agentを3人起動", "親は全結果を待つ", "会話履歴に依存しない入力",
                         "委譲できない観点は未完了", "親による代行を独立レビューと数えない",
                         "実際に確認できた値を区別して報告", "技術的な書込拒否を実現しない")
 
         # 実行 (Act)
         content = path.read_text(encoding="utf-8")
+        initial_read = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
 
         # 検証 (Assert)
         for requirement in requirements:
             self.assertIn(requirement, content)
         self.assertIn(ROOT / ".ai-config/review/policy.md", resolved_links(path))
+        self.assertIn(ROOT / "AGENTS.md", resolved_links(path))
+        for requirement in ("最初の操作からshellをGit読取に限定", "git ls-files",
+                            "git diff --no-index -- /dev/null <path>",
+                            "git show HEAD:<path>`で現在本文を置き換えない"):
+            self.assertIn(requirement, initial_read)
 
     def test_codex_start_allows_unverified_runtime_conditions(self):
         """実効値の未確認を開始不可に戻さず、運用と保証の区別を保持する。"""
@@ -165,6 +173,7 @@ class LayoutTests(unittest.TestCase):
                         "ignoredファイルとsecrets", "内容も読まない",
                         "確定した明示パスだけを読む",
                         "失敗、未完了、空の結果を「指摘なし」にしない",
+                        "失敗した観点を自動再試行して完了にしない",
                         "実行していなければ、読んで判断した旨を明記")
 
         # 実行 (Act)
