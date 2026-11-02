@@ -7,6 +7,7 @@
 ## 制約
 
 - 読み取り専用。ファイルの編集・作成・削除とGit状態の変更(add/commit/checkout/reset/stash/push等)は禁止。
+- 外部サービスの変更操作も禁止。PR承認・マージ・デプロイを行わない。
 - Bash等のshellではGit読取コマンドだけを使う。収集担当は`git status`、`git diff`、`git log`、`git show`、`git ls-files`、`git merge-base`、`git rev-parse`、`git merge-base --is-ancestor`。観点担当は`git diff`、`git log`、`git show`、`git status`、`git ls-files`に限る。これは運用上の指示であり、完全なsandboxや拒否境界ではない。
 - ignoredファイルとsecrets(`.env`、鍵、認証情報等)は含めず、内容も読まない。除外はパス名だけ報告する。
 - ファイル名を先に列挙して読む対象を確定する。パス指定なしの`git diff`全文は取得せず、確定した明示パスだけを読む。関連コードを追加で読むときも同じ除外条件を適用する。

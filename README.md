@@ -62,7 +62,7 @@ Claudeの観点担当には従来の`model: sonnet`、`context: fork`、`backgro
 
 Codexのモデル・推論量はユーザー指定、未指定なら実行セッションの設定を継承する。
 利用できない指定は黙って置き換えず未完了とする。モデル名は固定しない。
-レビュー専用セッションを読取専用sandboxで起動する例:
+CLIを使う場合に読取専用sandboxで起動する任意の例:
 
 ```sh
 codex --sandbox read-only --ask-for-approval on-request
@@ -71,10 +71,12 @@ codex exec --sandbox read-only -c 'approval_policy="never"'
 ```
 
 指定する場合は`--model <モデル名>`と`-c 'model_reasoning_effort="<推論量>"'`を追加する。
-変更可能な外部ツールも実行側で無効化し、子agentへ同じ条件を引き継ぐ。
+親・子ともに共通レビュー方針の読取専用の運用を守り、既存のsandbox・認証・承認設定を変更しない。
 `read-only + never`はsandbox外への昇格を拒否する組合せであり、書込の自動承認ではない。
 `.agents/review-runtime.md`は指示であり、skillの読込だけでモデル・権限・子agent起動が設定されるわけではない。
-実行条件を確認できない場合や独立した委譲ができない場合は、未完了と報告する。
+Codex組込みの子agentも利用でき、ネストしたCLI起動やOSによる書込拒否の実測は必須にしない。
+親・子の実効条件の未確認だけを理由に開始を中止せず、確認できない値は未確認と報告する。
+読取専用sandboxや外部変更ツールの無効化が保証されたとは扱わない。独立した委譲ができない観点は未完了とする。
 
 ## 共通方針の編集
 
