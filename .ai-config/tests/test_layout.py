@@ -229,6 +229,61 @@ class LayoutTests(unittest.TestCase):
         # 検証 (Assert)
         self.assertEqual(actual, expected)
 
+    def test_both_hosts_reach_one_documentation_policy_after_copy(self):
+        """コピー後も両hostが同じREADME記載方針を明示的に読む。"""
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = (Path(directory) / "application").resolve()
+            copied.mkdir()
+            copy_distribution(copied)
+
+            # 実行 (Act)
+            entries = [copied / name for name in ("AGENTS.md", "CLAUDE.md")]
+            links = [resolved_links(path) for path in entries]
+            contents = [path.read_text(encoding="utf-8") for path in entries]
+
+            # 検証 (Assert)
+            expected = copied / ".ai-config/rules/documentation.md"
+            self.assertTrue(expected.is_file())
+            for targets, content in zip(links, contents):
+                self.assertIn(expected, targets)
+                self.assertIn("ドキュメントの作成・更新では[記載方針]", content)
+                self.assertIn("documentation.md)も全文読んで適用する", content)
+
+    def test_documentation_policy_separates_usage_from_work_results(self):
+        """利用者に必要な制約を残し、個別の作業結果はPRや報告へ分ける。"""
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/documentation.md"
+        requirements = ("目的・使い方・設定方法・仕様・対応範囲・既知の制約",
+                        "未実施・未検証・確認待ちなどの一時的な作業状況、個別のテスト結果、レビュー回数・指摘件数、対応履歴は書かず",
+                        "PR本文や作業報告に残す", "利用者が知る必要のある内容を書く",
+                        "詳しい経緯はIssueやPRへ分ける", "テストの実行方法は使い方として記載してよい",
+                        "といった個別作業の結果は記載しない")
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+
+        # 検証 (Assert)
+        for requirement in requirements:
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, content)
+
+    def test_documentation_policy_distinguishes_verification_status_from_product_scope(self):
+        """未検証の注意をREADMEへ戻さず、製品の対応範囲や仕様は許容する。"""
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/documentation.md"
+        excluded = "「実デプロイ未検証」は一時的な検証状況なのでREADMEには書かず、PR本文や作業報告に残す。"
+        allowed = "「SSR 未対応」「初期状態ではデプロイ無効」は製品の対応範囲や仕様なのでREADMEに記載してよい。"
+        obsolete = "実デプロイ未検証など、利用判断に必要な注意は省略しない"
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+
+        # 検証 (Assert)
+        self.assertIn(excluded, content)
+        self.assertIn(allowed, content)
+        self.assertNotIn(obsolete, content)
+
 
 def copy_distribution(destination: Path) -> None:
     for name in DISTRIBUTION:
