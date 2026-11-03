@@ -44,8 +44,8 @@ class LayoutTests(unittest.TestCase):
     def test_both_hosts_have_all_entrypoints(self):
         """既存の他skillとの共存を許し、配布対象の入口を検証する。"""
         # 準備 (Arrange)
-        paths = [ROOT / f"{host}/skills/{prefix}{name}/SKILL.md"
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES]
+        paths = [skill_path(ROOT, host, name)
+                 for host in (".claude", ".agents") for name in NAMES]
 
         # 実行 (Act)
         entries = [(path, frontmatter(path), path.read_text(encoding="utf-8")) for path in paths]
@@ -61,7 +61,7 @@ class LayoutTests(unittest.TestCase):
     def test_claude_execution_settings_are_preserved(self):
         """既存Claudeのfork・モデル・待機・Write/Edit制限を維持する。"""
         # 準備 (Arrange)
-        paths = {name: ROOT / f".claude/skills/{name}/SKILL.md" for name in REVIEW_NAMES}
+        paths = {name: skill_path(ROOT, ".claude", name) for name in REVIEW_NAMES}
 
         # 実行 (Act)
         entries = {name: frontmatter(path) for name, path in paths.items()}
@@ -92,20 +92,20 @@ class LayoutTests(unittest.TestCase):
     def test_each_host_reaches_the_same_policy_and_aspects(self):
         """両hostの入口が同一実体の共通方針・観点を参照する。"""
         # 準備 (Arrange)
-        paths = [(host, prefix, name, ROOT / f"{host}/skills/{prefix}{name}/SKILL.md")
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in REVIEW_NAMES]
+        paths = [(host, name, skill_path(ROOT, host, name))
+                 for host in (".claude", ".agents") for name in REVIEW_NAMES]
 
         # 実行 (Act)
-        entries = [(host, prefix, name, resolved_links(path)) for host, prefix, name, path in paths]
+        entries = [(host, name, resolved_links(path)) for host, name, path in paths]
 
         # 検証 (Assert)
-        for host, prefix, name, links in entries:
+        for host, name, links in entries:
             self.assertIn(ROOT / ".ai-config/review/policy.md", links)
             if name == "review":
                 self.assertIn(ROOT / ".ai-config/review/workflow.md", links)
                 self.assertIn(ROOT / ".ai-config/review/rounds.md", links)
                 for aspect in REVIEW_NAMES[1:]:
-                    self.assertIn(ROOT / f"{host}/skills/{prefix}{aspect}/SKILL.md", links)
+                    self.assertIn(skill_path(ROOT, host, aspect), links)
             else:
                 self.assertIn(ROOT / ".ai-config/review/reviewer.md", links)
                 self.assertIn(ROOT / f".ai-config/review/{name[7:]}.md", links)
@@ -209,7 +209,7 @@ class LayoutTests(unittest.TestCase):
         """実装担当と両レビュー入口がコピー先の同一ラウンド定義へ到達する。"""
         # 準備 (Arrange)
         callers = ("AGENTS.md", ".ai-config/review/policy.md", ".ai-config/review/workflow.md",
-                   ".agents/skills/config-review/SKILL.md", ".claude/skills/review/SKILL.md")
+                   ".agents/skills/config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
         with tempfile.TemporaryDirectory() as directory:
             copied = (Path(directory) / "application").resolve()
             copied.mkdir()
@@ -225,6 +225,27 @@ class LayoutTests(unittest.TestCase):
             for name, links in targets.items():
                 with self.subTest(caller=name):
                     self.assertEqual(links, {expected})
+
+    def test_copied_review_commands_use_distinct_names(self):
+        """組込み名との衝突を戻さず、コピー後の案内と入口を一致させる。"""
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = Path(directory).resolve()
+            copy_distribution(copied)
+
+            # 実行 (Act)
+            claude = copied / ".claude/skills/ai-dev-config-review/SKILL.md"
+            codex = copied / ".agents/skills/config-review/SKILL.md"
+            commands = [frontmatter(path)["name"] for path in (claude, codex)]
+            instructions = [(copied / name).read_text(encoding="utf-8")
+                            for name in ("AGENTS.md", "CLAUDE.md")]
+
+            # 検証 (Assert)
+            self.assertEqual(commands, ["ai-dev-config-review", "config-review"])
+            for content in instructions:
+                self.assertIn("`/ai-dev-config-review`", content)
+                self.assertIn("`$config-review`", content)
+                self.assertNotIn("`/review`", content)
 
     def test_coding_rules_include_the_approved_aaa_addition(self):
         """従来規約にAAA方針を追加した承認済み本文を保存する。"""
@@ -308,9 +329,17 @@ def copy_distribution(destination: Path) -> None:
 def distribution_markdown(root: Path) -> list:
     paths = [root / "AGENTS.md", root / "CLAUDE.md", root / ".agents/review-runtime.md"]
     paths.extend((root / ".ai-config").rglob("*.md"))
-    paths.extend(root / f"{host}/skills/{prefix}{name}/SKILL.md"
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES)
+    paths.extend(skill_path(root, host, name)
+                 for host in (".claude", ".agents") for name in NAMES)
     return paths
+
+
+def skill_path(root: Path, host: str, name: str) -> Path:
+    if host == ".agents":
+        entry = f"config-{name}"
+    else:
+        entry = "ai-dev-config-review" if name == "review" else name
+    return root / host / "skills" / entry / "SKILL.md"
 
 
 def resolved_links(path: Path) -> set:

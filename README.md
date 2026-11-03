@@ -28,8 +28,10 @@ python3 -m unittest discover -s .ai-config/tests -v
 | 用途 | Claude Code | Codex |
 | --- | --- | --- |
 | 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
-| レビュー | `/review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
+| レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
 | Cloudflare導入・変更 | `/cloudflare-deploy 依頼内容` | `$config-cloudflare-deploy 依頼内容` |
+
+既存アプリの更新では、この設定由来と確認した旧`.claude/skills/review/`を新しい入口へ置き換える。他のレビュー設定は変更しない。
 
 例: 「このアプリにCloudflareのPRプレビュー運用を導入して」。PRごとの作成・更新・URLコメント・cleanupと、mainの成功CIからの本番反映を組み立てる。
 詳細は[Cloudflare運用](.ai-config/rules/cloudflare-deploy.md)、[レビュー方針](.ai-config/review/policy.md)、[ラウンドと停止条件](.ai-config/review/rounds.md)を参照。
@@ -38,7 +40,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 ## 初期設定
 
 - Cloudflare: 対象account/Worker、Secrets名と登録先、最小権限、previewと本番の資源を確認する。アプリ構成と公式CLIに合う方式を選び、既存Worker配下のWorker Previewから異なる方式へ変える場合は利用者に確認する。設定・Actions・処理・E2Eは各アプリに置く。
-- レビュー: Codexのモデル・推論量はユーザー指定、未指定ならセッション設定を継承する。[Codexの実行条件](.agents/review-runtime.md)と[Claudeの入口](.claude/skills/review/SKILL.md)に従う。運用指示や編集ツールの制限は、完全な書込拒否を保証しない。
+- レビュー: Codexのモデル・推論量はユーザー指定、未指定ならセッション設定を継承する。[Codexの実行条件](.agents/review-runtime.md)と[Claudeの入口](.claude/skills/ai-dev-config-review/SKILL.md)に従う。運用指示や編集ツールの制限は、完全な書込拒否を保証しない。
 - 承認: ユーザー領域へのインストールや既存のsandbox・認証・承認設定の変更は自動で行わない。実デプロイ・削除・credential登録・PRコメント投稿は各タスクの承認範囲で行う。
 
 設定を調整するときは共通本文を`.ai-config/`、ツール固有の呼出・モデル設定を各入口で変更する。

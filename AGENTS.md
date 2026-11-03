@@ -18,7 +18,7 @@ Codexのレビュー担当（親・子）は、規約・skillを読む最初の�
 Markdownリンクの自動展開を前提にせず、明示的に読む。見つからなければ不足を報告する。
 
 実装前の認識合わせにはClaude Codeの`/clarify`、Codexの`$config-clarify`を使う。
-レビューを依頼された場合はClaude Codeの`/review`、Codexの`$config-review`を使う。
+レビューを依頼された場合はClaude Codeの`/ai-dev-config-review`、Codexの`$config-review`を使う。
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
 Cloudflareの導入・変更では[デプロイ運用ルール](.ai-config/rules/cloudflare-deploy.md)を全文読む。

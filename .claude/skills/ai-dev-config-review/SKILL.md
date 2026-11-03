@@ -1,11 +1,11 @@
 ---
-name: review
+name: ai-dev-config-review
 description: タスク変更全体を独立3観点で1ラウンドレビューし、統合結果と継続・停止の判定を返す。報告のみ。
 argument-hint: "[比較元(ブランチ/コミット)] [要件の要約]"
 disallowed-tools: Write, Edit
 ---
 
-# review
+# ai-dev-config-review
 
 リンクはこのSKILL.mdの場所を基準に解決し、指定した文書を全文読んでから実行する。読めなければ不足を報告する。
 
