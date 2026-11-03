@@ -10,7 +10,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
-NAMES = ("clarify", "review", "review-correctness", "review-tests", "review-design")
+REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
+NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy")
 
 
 class LayoutTests(unittest.TestCase):
@@ -33,22 +34,24 @@ class LayoutTests(unittest.TestCase):
             self.assertEqual(claude.read_bytes(), (copied / "AGENTS.md").read_bytes())
             self.assertIn(".ai-config/rules/coding.md", local_links(copied / "AGENTS.md"))
             self.assertIn(".agents/review-runtime.md", local_links(copied / "AGENTS.md"))
+            self.assertFalse((copied / ".ai-config/validation").exists())
+            self.assertFalse((copied / "docs").exists())
             for path, link, resolved in links:
                 with self.subTest(source=path.relative_to(copied), target=link):
                     self.assertTrue(resolved.is_relative_to(copied))
                     self.assertTrue(resolved.is_file())
 
     def test_both_hosts_have_all_entrypoints(self):
-        """既存の他skillとの共存を許し、配布対象5入口を検証する。"""
+        """既存の他skillとの共存を許し、配布対象の入口を検証する。"""
         # 準備 (Arrange)
-        paths = [ROOT / f"{host}/skills/{prefix}{name}/SKILL.md"
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES]
+        paths = [skill_path(ROOT, host, name)
+                 for host in (".claude", ".agents") for name in NAMES]
 
         # 実行 (Act)
         entries = [(path, frontmatter(path), path.read_text(encoding="utf-8")) for path in paths]
 
         # 検証 (Assert)
-        self.assertEqual(len(entries), 10)
+        self.assertEqual(len(entries), 12)
         for path, metadata, content in entries:
             with self.subTest(entry=path.relative_to(ROOT)):
                 self.assertEqual(metadata["name"], path.parent.name)
@@ -58,7 +61,7 @@ class LayoutTests(unittest.TestCase):
     def test_claude_execution_settings_are_preserved(self):
         """既存Claudeのfork・モデル・待機・Write/Edit制限を維持する。"""
         # 準備 (Arrange)
-        paths = {name: ROOT / f".claude/skills/{name}/SKILL.md" for name in NAMES[1:]}
+        paths = {name: skill_path(ROOT, ".claude", name) for name in REVIEW_NAMES}
 
         # 実行 (Act)
         entries = {name: frontmatter(path) for name, path in paths.items()}
@@ -83,26 +86,26 @@ class LayoutTests(unittest.TestCase):
         # 検証 (Assert)
         for name, metadata, links in entries:
             self.assertEqual(set(metadata), {"name", "description"})
-            if name != "clarify":
+            if name in REVIEW_NAMES:
                 self.assertIn(ROOT / ".agents/review-runtime.md", links)
 
     def test_each_host_reaches_the_same_policy_and_aspects(self):
         """両hostの入口が同一実体の共通方針・観点を参照する。"""
         # 準備 (Arrange)
-        paths = [(host, prefix, name, ROOT / f"{host}/skills/{prefix}{name}/SKILL.md")
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES[1:]]
+        paths = [(host, name, skill_path(ROOT, host, name))
+                 for host in (".claude", ".agents") for name in REVIEW_NAMES]
 
         # 実行 (Act)
-        entries = [(host, prefix, name, resolved_links(path)) for host, prefix, name, path in paths]
+        entries = [(host, name, resolved_links(path)) for host, name, path in paths]
 
         # 検証 (Assert)
-        for host, prefix, name, links in entries:
+        for host, name, links in entries:
             self.assertIn(ROOT / ".ai-config/review/policy.md", links)
             if name == "review":
                 self.assertIn(ROOT / ".ai-config/review/workflow.md", links)
                 self.assertIn(ROOT / ".ai-config/review/rounds.md", links)
-                for aspect in NAMES[2:]:
-                    self.assertIn(ROOT / f"{host}/skills/{prefix}{aspect}/SKILL.md", links)
+                for aspect in REVIEW_NAMES[1:]:
+                    self.assertIn(skill_path(ROOT, host, aspect), links)
             else:
                 self.assertIn(ROOT / ".ai-config/review/reviewer.md", links)
                 self.assertIn(ROOT / f".ai-config/review/{name[7:]}.md", links)
@@ -115,18 +118,24 @@ class LayoutTests(unittest.TestCase):
                         "指定が利用できない場合は勝手に別の値へ置き換えず未完了",
                         "既存のsandbox・認証・承認設定を変更せず", "書込を許可する承認は行わない",
                         "子agentにも同じモデル・推論量と共通レビュー方針を渡す",
-                        "git diff --no-index -- /dev/null <path>", "未commitの現在の本文の代わりに使わない",
+                        "読取の開始順序と手段は[AGENTS.md]", "全文読んで適用する",
                         "独立した子agentを3人起動", "親は全結果を待つ", "会話履歴に依存しない入力",
                         "委譲できない観点は未完了", "親による代行を独立レビューと数えない",
                         "実際に確認できた値を区別して報告", "技術的な書込拒否を実現しない")
 
         # 実行 (Act)
         content = path.read_text(encoding="utf-8")
+        initial_read = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
 
         # 検証 (Assert)
         for requirement in requirements:
             self.assertIn(requirement, content)
         self.assertIn(ROOT / ".ai-config/review/policy.md", resolved_links(path))
+        self.assertIn(ROOT / "AGENTS.md", resolved_links(path))
+        for requirement in ("最初の操作からshellをGit読取に限定", "git ls-files",
+                            "git diff --no-index -- /dev/null <path>",
+                            "git show HEAD:<path>`で現在本文を置き換えない"):
+            self.assertIn(requirement, initial_read)
 
     def test_codex_start_allows_unverified_runtime_conditions(self):
         """実効値の未確認を開始不可に戻さず、運用と保証の区別を保持する。"""
@@ -164,6 +173,7 @@ class LayoutTests(unittest.TestCase):
                         "ignoredファイルとsecrets", "内容も読まない",
                         "確定した明示パスだけを読む",
                         "失敗、未完了、空の結果を「指摘なし」にしない",
+                        "失敗した観点を自動再試行して完了にしない",
                         "実行していなければ、読んで判断した旨を明記")
 
         # 実行 (Act)
@@ -199,7 +209,7 @@ class LayoutTests(unittest.TestCase):
         """実装担当と両レビュー入口がコピー先の同一ラウンド定義へ到達する。"""
         # 準備 (Arrange)
         callers = ("AGENTS.md", ".ai-config/review/policy.md", ".ai-config/review/workflow.md",
-                   ".agents/skills/config-review/SKILL.md", ".claude/skills/review/SKILL.md")
+                   ".agents/skills/config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
         with tempfile.TemporaryDirectory() as directory:
             copied = (Path(directory) / "application").resolve()
             copied.mkdir()
@@ -215,6 +225,27 @@ class LayoutTests(unittest.TestCase):
             for name, links in targets.items():
                 with self.subTest(caller=name):
                     self.assertEqual(links, {expected})
+
+    def test_copied_review_commands_use_distinct_names(self):
+        """組込み名との衝突を戻さず、コピー後の案内と入口を一致させる。"""
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = Path(directory).resolve()
+            copy_distribution(copied)
+
+            # 実行 (Act)
+            claude = copied / ".claude/skills/ai-dev-config-review/SKILL.md"
+            codex = copied / ".agents/skills/config-review/SKILL.md"
+            commands = [frontmatter(path)["name"] for path in (claude, codex)]
+            instructions = [(copied / name).read_text(encoding="utf-8")
+                            for name in ("AGENTS.md", "CLAUDE.md")]
+
+            # 検証 (Assert)
+            self.assertEqual(commands, ["ai-dev-config-review", "config-review"])
+            for content in instructions:
+                self.assertIn("`/ai-dev-config-review`", content)
+                self.assertIn("`$config-review`", content)
+                self.assertNotIn("`/review`", content)
 
     def test_coding_rules_include_the_approved_aaa_addition(self):
         """従来規約にAAA方針を追加した承認済み本文を保存する。"""
@@ -298,9 +329,17 @@ def copy_distribution(destination: Path) -> None:
 def distribution_markdown(root: Path) -> list:
     paths = [root / "AGENTS.md", root / "CLAUDE.md", root / ".agents/review-runtime.md"]
     paths.extend((root / ".ai-config").rglob("*.md"))
-    paths.extend(root / f"{host}/skills/{prefix}{name}/SKILL.md"
-                 for host, prefix in ((".claude", ""), (".agents", "config-")) for name in NAMES)
+    paths.extend(skill_path(root, host, name)
+                 for host in (".claude", ".agents") for name in NAMES)
     return paths
+
+
+def skill_path(root: Path, host: str, name: str) -> Path:
+    if host == ".agents":
+        entry = f"config-{name}"
+    else:
+        entry = "ai-dev-config-review" if name == "review" else name
+    return root / host / "skills" / entry / "SKILL.md"
 
 
 def resolved_links(path: Path) -> set:
