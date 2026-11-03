@@ -247,11 +247,11 @@ class LayoutTests(unittest.TestCase):
                 self.assertIn("`$config-review`", content)
                 self.assertNotIn("`/review`", content)
 
-    def test_coding_rules_include_the_approved_aaa_addition(self):
-        """従来規約にAAA方針を追加した承認済み本文を保存する。"""
+    def test_コーディング規約が依頼された方針を含む本文を維持する(self):
+        """AAA・日本語のテスト名・意味のまとまりごとの空行を含む本文を保持する。"""
         # 準備 (Arrange)
         content = (ROOT / ".ai-config/rules/coding.md").read_text(encoding="utf-8")
-        expected = "fd311361659b8beb28f397d16862acdd1f1934fdbd05fdce8352d17e3a776e31"
+        expected = "1d0df3987276ed670b7b71ea3256d0e3b2e90efc3a582a13c226a684d80f6771"
 
         # 実行 (Act)
         normalized = "\n".join(line.rstrip() for line in content.splitlines() if line.strip())
@@ -259,6 +259,34 @@ class LayoutTests(unittest.TestCase):
 
         # 検証 (Assert)
         self.assertEqual(actual, expected)
+
+    def test_テスト規約が日本語のケース名と期待する振る舞いを求める(self):
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/coding.md"
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+        testing = content.split("## 6. テスト", 1)[1].split("## 例", 1)[0]
+
+        # 検証 (Assert)
+        self.assertIn("テストケース名は日本語", testing)
+        self.assertIn("条件と期待する振る舞いが分かる名前", testing)
+        self.assertIn("`正常系`や`test1`のような内容が分からない名前を避ける", testing)
+        self.assertIn("AAA(Arrange・Act・Assert)", testing)
+
+    def test_空行規約が意味ごとの分離と関連宣言のまとまりを両立する(self):
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/coding.md"
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+        spacing = content.split("## 5. 空行", 1)[1].split("## 6. テスト", 1)[0]
+
+        # 検証 (Assert)
+        self.assertIn("変数宣言や処理は意味・目的が同じものをまとめ", spacing)
+        self.assertIn("別の計算・検証・整形などへ移る箇所には空行を置く", spacing)
+        self.assertIn("コード生成時も複数のまとまりを詰めて並べない", spacing)
+        self.assertIn("関連する変数宣言を1件ずつ機械的に空行で分けない", spacing)
 
     def test_both_hosts_reach_one_documentation_policy_after_copy(self):
         """コピー後も両hostが同じREADME記載方針を明示的に読む。"""
