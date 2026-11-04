@@ -30,6 +30,7 @@ Cloudflareの導入・変更では[デプロイ運用ルール](.ai-config/rules
 Claude Codeの`/cloudflare-deploy`、Codexの`$config-cloudflare-deploy`から共通手順を使う。
 
 レビューと修正は[ラウンドの共通定義](.ai-config/review/rounds.md)を読んで進める。
+実装後のPR作成とレビュー記録は[PRへの記録手順](.ai-config/review/records.md)を全文読んで適用する。
 各ラウンドでは正確性/安全性・テスト・設計/可読性を独立した担当に各1回依頼して統合する。
 レビュー担当は報告のみ、修正とラウンド管理は実装担当が行う。
 利用できない入口・委譲機能や未完了の観点は未完了と報告する。
