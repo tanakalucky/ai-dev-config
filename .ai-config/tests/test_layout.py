@@ -309,6 +309,51 @@ class LayoutTests(unittest.TestCase):
                 self.assertIn("ドキュメントの作成・更新では[記載方針]", content)
                 self.assertIn("documentation.md)も全文読んで適用する", content)
 
+    def test_コピー後も両ツールからPR作成前の共通方針へ到達する(self):
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = Path(directory).resolve()
+            copy_distribution(copied)
+            entries = [copied / name for name in ("AGENTS.md", "CLAUDE.md")]
+            policy = copied / ".ai-config/rules/documentation.md"
+
+            # 実行 (Act)
+            callers = [(resolved_links(path), path.read_text(encoding="utf-8"))
+                       for path in entries]
+            content = policy.read_text(encoding="utf-8")
+
+            # 検証 (Assert)
+            for links, instructions in callers:
+                self.assertIn(policy, links)
+                self.assertIn("PR作成前にも同じ記載方針を全文読んで適用する", instructions)
+            self.assertIn("## PR作成", content)
+
+    def test_PR作成方針がテンプレートの探索順と原文の案内を保持する(self):
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/documentation.md"
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+        policy = content.split("## PR作成", 1)[1].split("## README", 1)[0]
+
+        # 検証 (Assert)
+        self.assertIn("PR作成前に、対象リポジトリのPRテンプレートを原文で全文読む", policy)
+        self.assertIn("なければ所有者の`.github`リポジトリの共通PRテンプレートを探して同様に読む", policy)
+        self.assertIn("HTMLコメント内の案内にも従う", policy)
+        self.assertNotIn("Closes", policy)
+
+    def test_PR本文を直接渡す場合もテンプレートの読み込みを省略しない(self):
+        # 準備 (Arrange)
+        path = ROOT / ".ai-config/rules/documentation.md"
+
+        # 実行 (Act)
+        content = path.read_text(encoding="utf-8")
+        policy = content.split("## PR作成", 1)[1].split("## README", 1)[0]
+
+        # 検証 (Assert)
+        self.assertIn("`gh pr create --body`・`--body-file`やAPIで本文を直接渡す場合も", policy)
+        self.assertIn("この読み込みを省略しない", policy)
+
     def test_documentation_policy_separates_usage_from_work_results(self):
         """利用者に必要な制約を残し、個別の作業結果はPRや報告へ分ける。"""
         # 準備 (Arrange)
