@@ -1,6 +1,6 @@
 # Claude Code / Codex 共通設定
 
-アプリのリポジトリへコピーして、規約・認識合わせ・独立3観点レビュー・Cloudflare運用を共有する。
+アプリのリポジトリへコピーして、規約・認識合わせ・FSD・独立3観点レビュー・Cloudflare運用を共有する。
 共通本文は`AGENTS.md`と`.ai-config/`、ツール別の入口は`.agents/skills/`と`.claude/skills/`に置く。
 生成処理や外部の設定リポジトリへの参照は不要。
 
@@ -28,6 +28,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 | 用途 | Claude Code | Codex |
 | --- | --- | --- |
 | 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
+| FSD導入・変更・配置案 | `/fsd 依頼内容` | `$config-fsd 依頼内容` |
 | レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
 | Cloudflare導入・変更 | `/cloudflare-deploy 依頼内容` | `$config-cloudflare-deploy 依頼内容` |
 
@@ -39,6 +40,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 ## 初期設定
 
+- FSD: 「この画面をFSDで追加して」「既存アプリへの配置案を示して」のように依頼する。[共通ルール](.ai-config/rules/fsd.md)と[導入手順](.ai-config/workflows/fsd.md)を使い、ソースルート・エイリアス・共有パッケージ・ルーターとの対応は各アプリに記録する。必要なレイヤーだけを使い、一括移行・設定生成・依存チェックCIの追加は行わない。
 - Cloudflare: 対象account/Worker、Secrets名と登録先、最小権限、previewと本番の資源を確認する。アプリ構成と公式CLIに合う方式を選び、既存Worker配下のWorker Previewから異なる方式へ変える場合は利用者に確認する。設定・Actions・処理・E2Eは各アプリに置く。
 - レビュー: Codexのモデル・推論量はユーザー指定、未指定ならセッション設定を継承する。[Codexの実行条件](.agents/review-runtime.md)と[Claudeの入口](.claude/skills/ai-dev-config-review/SKILL.md)に従う。運用指示や編集ツールの制限は、完全な書込拒否を保証しない。
 - 承認: ユーザー領域へのインストールや既存のsandbox・認証・承認設定の変更は自動で行わない。実デプロイ・削除・credential登録・PRコメント投稿は各タスクの承認範囲で行う。
