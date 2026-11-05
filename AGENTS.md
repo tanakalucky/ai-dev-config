@@ -26,6 +26,9 @@ Markdownリンクの自動展開を前提にせず、明示的に読む。見つ
 レビューを依頼された場合はClaude Codeの`/ai-dev-config-review`、Codexの`$config-review`を使う。
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
+フロントエンドの新規作成・変更では[FSDルール](.ai-config/rules/fsd.md)を全文読む。
+Claude Codeの`/fsd`、Codexの`$config-fsd`から導入・変更の共通手順を使う。
+
 Cloudflareの導入・変更では[デプロイ運用ルール](.ai-config/rules/cloudflare-deploy.md)を全文読む。
 Claude Codeの`/cloudflare-deploy`、Codexの`$config-cloudflare-deploy`から共通手順を使う。
 

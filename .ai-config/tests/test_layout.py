@@ -11,7 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
 REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
-NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy")
+NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd")
 
 
 class LayoutTests(unittest.TestCase):
@@ -51,12 +51,30 @@ class LayoutTests(unittest.TestCase):
         entries = [(path, frontmatter(path), path.read_text(encoding="utf-8")) for path in paths]
 
         # 検証 (Assert)
-        self.assertEqual(len(entries), 12)
+        self.assertEqual(len(entries), 2 * len(NAMES))
         for path, metadata, content in entries:
             with self.subTest(entry=path.relative_to(ROOT)):
                 self.assertEqual(metadata["name"], path.parent.name)
                 self.assertTrue(metadata["description"])
                 self.assertNotIn("{{", content)
+
+    def test_コピー後もFSDの両入口が同じルールと導入手順へ到達する(self):
+        # 準備 (Arrange)
+        with tempfile.TemporaryDirectory() as directory:
+            copied = Path(directory).resolve()
+            copy_distribution(copied)
+            expected = {copied / ".ai-config/rules/fsd.md",
+                        copied / ".ai-config/workflows/fsd.md"}
+
+            # 実行 (Act)
+            entries = [resolved_links(skill_path(copied, host, "fsd"))
+                       for host in (".claude", ".agents")]
+            instruction_links = resolved_links(copied / "AGENTS.md")
+
+            # 検証 (Assert)
+            for links in entries:
+                self.assertEqual(links, expected)
+            self.assertIn(copied / ".ai-config/rules/fsd.md", instruction_links)
 
     def test_claude_execution_settings_are_preserved(self):
         """既存Claudeのfork・モデル・待機・Write/Edit制限を維持する。"""
