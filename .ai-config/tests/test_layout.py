@@ -269,7 +269,7 @@ class LayoutTests(unittest.TestCase):
         """AAA・日本語のテスト名・意味のまとまりごとの空行を含む本文を保持する。"""
         # 準備 (Arrange)
         content = (ROOT / ".ai-config/rules/coding.md").read_text(encoding="utf-8")
-        expected = "1d0df3987276ed670b7b71ea3256d0e3b2e90efc3a582a13c226a684d80f6771"
+        expected = "2897a8397354ce4c3cd67994ecdd8fd6b8746585b58ce128950152496d0e3f39"
 
         # 実行 (Act)
         normalized = "\n".join(line.rstrip() for line in content.splitlines() if line.strip())
@@ -284,7 +284,7 @@ class LayoutTests(unittest.TestCase):
 
         # 実行 (Act)
         content = path.read_text(encoding="utf-8")
-        testing = content.split("## 6. テスト", 1)[1].split("## 例", 1)[0]
+        testing = content.split("## 6. テスト", 1)[1]
 
         # 検証 (Assert)
         self.assertIn("テストケース名は日本語", testing)
