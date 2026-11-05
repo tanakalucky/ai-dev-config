@@ -100,6 +100,42 @@ class ReviewRecordTests(unittest.TestCase):
         for outcome in outcomes:
             self.assertIn(f"`{outcome}`（", content)
 
+    def test_全候補の出典から固定IDと指摘表と履歴を照合して記録漏れを止める(self):
+        # 準備 (Arrange)
+        requirements = ("各担当から採用・除外・未分類を含む全候補を集め",
+                        "担当別の候補件数と出典を確定",
+                        "全候補の出典→固定ID→指摘表→対応履歴を全件照合",
+                        "重複を同じIDへ統合した場合も全ての出典との対応を残す",
+                        "漏れ・件数不一致・出典不明があれば記録は未完了",
+                        "保存後の本文でも同じ照合")
+
+        # 実行 (Act)
+        content = read_records()
+
+        # 検証 (Assert)
+        for requirement in requirements:
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, content)
+
+    def test_元重要度のない候補をP2へ変えず未解決なら収束を保留する(self):
+        # 準備 (Arrange)
+        requirements = ("元重要度がない候補は重要度欄を`unclassified`（未分類）",
+                        "重要度未付与とその理由を記録", "自動的にP2へ分類しない",
+                        "分類または根拠付きの除外は対応履歴に追記",
+                        "未解決の`unclassified`候補は未解決IDに含め",
+                        "P0/P1が0件・収束とは扱わない",
+                        "未完了・収束未確認", "未分類の未解決件数")
+
+        # 実行 (Act)
+        content = read_records()
+        template, = re.findall(r"```markdown\n(.*?)\n```", content, re.DOTALL)
+
+        # 検証 (Assert)
+        for requirement in requirements:
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, content)
+        self.assertIn("未分類の未解決件数", template)
+
     def test_固定テンプレートが対象と三観点と指摘と履歴を独立して持つ(self):
         # 準備 (Arrange)
         content = read_records()
