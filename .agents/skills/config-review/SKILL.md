@@ -9,6 +9,7 @@ description: タスク変更全体を独立3観点で1ラウンドレビュー�
 
 [共通レビュー方針](../../../.ai-config/review/policy.md)を適用する。
 [ラウンドの共通定義](../../../.ai-config/review/rounds.md)を読み、実装担当から渡されたラウンドを実行する。
+[PRへの記録手順](../../../.ai-config/review/records.md)を全文読み、記録用の結果を実装担当へ返す。レビュー担当は投稿しない。
 [Codexの実行条件](../../review-runtime.md)を確認して適用する。
 
 [レビューの共通手順](../../../.ai-config/review/workflow.md)に従い、対象を確定して統合する。

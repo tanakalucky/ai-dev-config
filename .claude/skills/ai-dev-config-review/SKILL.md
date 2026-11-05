@@ -11,6 +11,7 @@ disallowed-tools: Write, Edit
 
 [共通レビュー方針](../../../.ai-config/review/policy.md)を適用する。
 [ラウンドの共通定義](../../../.ai-config/review/rounds.md)を読み、実装担当から渡されたラウンドを実行する。
+[PRへの記録手順](../../../.ai-config/review/records.md)を全文読み、記録用の結果を実装担当へ返す。レビュー担当は投稿しない。
 `disallowed-tools: Write, Edit`で編集ツールを除外する。shellや外部ツールまで含む完全な読取専用sandboxではない。`allowed-tools`は追加しない。
 
 [レビューの共通手順](../../../.ai-config/review/workflow.md)に従い、対象を確定して統合する。
