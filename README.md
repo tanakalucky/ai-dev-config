@@ -27,12 +27,15 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 | 用途 | Claude Code | Codex |
 | --- | --- | --- |
-| 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
-| FSD導入・変更・配置案 | `/fsd 依頼内容` | `$config-fsd 依頼内容` |
-| レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
-| Cloudflare導入・変更 | `/cloudflare-deploy 依頼内容` | `$config-cloudflare-deploy 依頼内容` |
+| 認識合わせ | `/clarify 依頼内容` | `$clarify 依頼内容` |
+| FSD導入・変更・配置案 | `/fsd 依頼内容` | `$fsd 依頼内容` |
+| レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$ai-dev-config-review <比較元またはcommit> <要件>` |
+| Cloudflare導入・変更 | `/cloudflare-deploy 依頼内容` | `$cloudflare-deploy 依頼内容` |
 
 既存アプリの更新では、この設定由来と確認した旧`.claude/skills/review/`を新しい入口へ置き換える。他のレビュー設定は変更しない。
+Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入口を置き換える。
+`config-review`は`ai-dev-config-review`、その他は`config-`を外した名前にし、旧入口を残さない。
+同名の別スキルがある場合は、上書きせず差分を確認して統合する。
 
 例: 「このアプリにCloudflareのPRプレビュー運用を導入して」。PRごとの作成・更新・URLコメント・cleanupと、mainの成功CIからの本番反映を組み立てる。
 詳細は[Cloudflare運用](.ai-config/rules/cloudflare-deploy.md)、[レビュー方針](.ai-config/review/policy.md)、[ラウンドと停止条件](.ai-config/review/rounds.md)を参照。

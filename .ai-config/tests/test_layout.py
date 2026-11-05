@@ -96,7 +96,7 @@ class LayoutTests(unittest.TestCase):
     def test_codex_does_not_inherit_claude_frontmatter(self):
         """Codexのモデルや権限をClaudeのmetadataで設定したように見せない。"""
         # 準備 (Arrange)
-        paths = {name: ROOT / f".agents/skills/config-{name}/SKILL.md" for name in NAMES}
+        paths = {name: skill_path(ROOT, ".agents", name) for name in NAMES}
 
         # 実行 (Act)
         entries = [(name, frontmatter(path), resolved_links(path)) for name, path in paths.items()]
@@ -227,7 +227,7 @@ class LayoutTests(unittest.TestCase):
         """実装担当と両レビュー入口がコピー先の同一ラウンド定義へ到達する。"""
         # 準備 (Arrange)
         callers = ("AGENTS.md", ".ai-config/review/policy.md", ".ai-config/review/workflow.md",
-                   ".agents/skills/config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
+                   ".agents/skills/ai-dev-config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
         with tempfile.TemporaryDirectory() as directory:
             copied = (Path(directory) / "application").resolve()
             copied.mkdir()
@@ -244,25 +244,29 @@ class LayoutTests(unittest.TestCase):
                 with self.subTest(caller=name):
                     self.assertEqual(links, {expected})
 
-    def test_copied_review_commands_use_distinct_names(self):
-        """組込み名との衝突を戻さず、コピー後の案内と入口を一致させる。"""
+    def test_コピー後も両ツールのスキル名が一致し旧Codex入口が残らない(self):
         # 準備 (Arrange)
+        expected = {"clarify", "fsd", "cloudflare-deploy", "ai-dev-config-review",
+                    "review-correctness", "review-tests", "review-design"}
         with tempfile.TemporaryDirectory() as directory:
             copied = Path(directory).resolve()
             copy_distribution(copied)
 
             # 実行 (Act)
-            claude = copied / ".claude/skills/ai-dev-config-review/SKILL.md"
-            codex = copied / ".agents/skills/config-review/SKILL.md"
-            commands = [frontmatter(path)["name"] for path in (claude, codex)]
+            commands = [{frontmatter(copied / host / "skills" / name / "SKILL.md")["name"]
+                         for name in expected} for host in (".claude", ".agents")]
+            legacy = [copied / ".agents/skills" / f"config-{name}" for name in NAMES]
             instructions = [(copied / name).read_text(encoding="utf-8")
                             for name in ("AGENTS.md", "CLAUDE.md")]
 
             # 検証 (Assert)
-            self.assertEqual(commands, ["ai-dev-config-review", "config-review"])
+            self.assertEqual(commands, [expected, expected])
+            for path in legacy:
+                self.assertFalse(path.exists(), path)
             for content in instructions:
-                self.assertIn("`/ai-dev-config-review`", content)
-                self.assertIn("`$config-review`", content)
+                for name in ("clarify", "fsd", "cloudflare-deploy", "ai-dev-config-review"):
+                    self.assertIn(f"`/{name}`", content)
+                    self.assertIn(f"`${name}`", content)
                 self.assertNotIn("`/review`", content)
 
     def test_コーディング規約が依頼された方針を含む本文を維持する(self):
@@ -426,10 +430,7 @@ def distribution_markdown(root: Path) -> list:
 
 
 def skill_path(root: Path, host: str, name: str) -> Path:
-    if host == ".agents":
-        entry = f"config-{name}"
-    else:
-        entry = "ai-dev-config-review" if name == "review" else name
+    entry = "ai-dev-config-review" if name == "review" else name
     return root / host / "skills" / entry / "SKILL.md"
 
 

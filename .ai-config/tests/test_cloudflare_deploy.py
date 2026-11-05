@@ -14,7 +14,7 @@ class CloudflareDeployTests(unittest.TestCase):
             copied = Path(directory).resolve()
             copy_distribution(copied)
             entries = [copied / host / "skills" / name / "SKILL.md"
-                       for host, name in ((".agents", "config-cloudflare-deploy"),
+                       for host, name in ((".agents", "cloudflare-deploy"),
                                           (".claude", "cloudflare-deploy"))]
             rules = copied / ".ai-config/rules/cloudflare-deploy.md"
             workflow = copied / ".ai-config/workflows/cloudflare-deploy.md"
@@ -37,7 +37,7 @@ class CloudflareDeployTests(unittest.TestCase):
     def test_entrypoints_only_route_to_shared_content(self):
         # 準備 (Arrange)
         entries = [ROOT / host / "skills" / name / "SKILL.md"
-                   for host, name in ((".agents", "config-cloudflare-deploy"),
+                   for host, name in ((".agents", "cloudflare-deploy"),
                                       (".claude", "cloudflare-deploy"))]
 
         # 実行 (Act)
@@ -116,7 +116,7 @@ class CloudflareDeployTests(unittest.TestCase):
             copied = Path(directory).resolve()
             copy_distribution(copied)
             entries = [copied / host / "skills" / name / "SKILL.md"
-                       for host, name in ((".agents", "config-cloudflare-deploy"),
+                       for host, name in ((".agents", "cloudflare-deploy"),
                                           (".claude", "cloudflare-deploy"))]
             rules = copied / ".ai-config/rules/cloudflare-deploy.md"
 
