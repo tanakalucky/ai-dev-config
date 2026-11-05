@@ -1,9 +1,9 @@
 ---
-name: config-review-correctness
+name: review-correctness
 description: タスク変更全体の正確性と安全性をレビューする。報告のみ。
 ---
 
-# config-review-correctness
+# review-correctness
 
 リンクはこのSKILL.mdの場所を基準に解決し、指定した文書を全文読んでから実行する。読めなければ不足を報告する。
 
