@@ -1,9 +1,9 @@
 ---
-name: config-review-tests
+name: review-tests
 description: タスク変更全体のテストの妥当性と不足をレビューする。報告のみ。
 ---
 
-# config-review-tests
+# review-tests
 
 リンクはこのSKILL.mdの場所を基準に解決し、指定した文書を全文読んでから実行する。読めなければ不足を報告する。
 

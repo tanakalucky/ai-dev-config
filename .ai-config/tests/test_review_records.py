@@ -11,7 +11,7 @@ from test_layout import ROOT, copy_distribution, resolved_links
 class ReviewRecordTests(unittest.TestCase):
     def test_コピー後も実装担当と両レビュー入口が同じ記録手順へ到達する(self):
         # 準備 (Arrange)
-        callers = ("AGENTS.md", "CLAUDE.md", ".agents/skills/config-review/SKILL.md",
+        callers = ("AGENTS.md", "CLAUDE.md", ".agents/skills/ai-dev-config-review/SKILL.md",
                    ".claude/skills/ai-dev-config-review/SKILL.md",
                    ".ai-config/review/rounds.md", ".ai-config/review/workflow.md")
         with tempfile.TemporaryDirectory() as directory:
@@ -47,7 +47,7 @@ class ReviewRecordTests(unittest.TestCase):
 
     def test_投稿と修正をレビュー担当へ移さず権限不足を記録する(self):
         # 準備 (Arrange)
-        entries = (".agents/skills/config-review/SKILL.md",
+        entries = (".agents/skills/ai-dev-config-review/SKILL.md",
                    ".claude/skills/ai-dev-config-review/SKILL.md")
         requirements = ("タスクで許可された範囲", "外部変更の許可にならない",
                         "結果を返すだけで投稿・修正しない", "レビューだけの依頼ではPRを新規作成しない",
