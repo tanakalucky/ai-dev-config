@@ -47,7 +47,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 [週次課題発見](.ai-config/workflows/weekly-discovery.md)は独立2系統の調査と候補採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・効果確認を扱う。採用は独立5人中3賛成。外部スケジュール・自動投稿・merge/deployは別途許可が必要。
 
-標準テストはコピー先の入口・リンク・安全境界・状態遷移を静的に確認し、[実行補助](.ai-config/helpers/orchestrator_dry_run.py)は合成証拠の整合性を確認する。実モデルや外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、5つの配布物には含めない。
+標準テストはコピー先のファイル・リンク・入口設定・記録の構造を確認する。手順の実行や実モデル・外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、5つの配布物には含めない。
 
 ## 初期設定
 
