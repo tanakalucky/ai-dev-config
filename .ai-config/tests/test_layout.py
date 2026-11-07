@@ -11,7 +11,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
 REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
-NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd", "development-orchestrator")
+SHARED_NAMES = ("development-orchestrator", "weekly-discovery", "development-improvement")
+NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd", *SHARED_NAMES)
 
 
 class LayoutTests(unittest.TestCase):
@@ -426,7 +427,7 @@ def distribution_markdown(root: Path) -> list:
 
 
 def skill_path(root: Path, host: str, name: str) -> Path:
-    if host == ".agents" and name != "development-orchestrator":
+    if host == ".agents" and name not in SHARED_NAMES:
         entry = f"config-{name}"
     else:
         entry = "ai-dev-config-review" if name == "review" else name

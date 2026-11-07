@@ -1,0 +1,1885 @@
+{
+  "notice": "All identities, evidence, thresholds and results are synthetic; no external operation or factual validation. Thresholds belong only to this invented improvement.",
+  "inputs": {
+    "startup": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ]
+    },
+    "quality": {
+      "operation": "quality",
+      "repository": "example/sample",
+      "branch": "feature/sample",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "review_round": 1,
+      "ci": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "run_url": "synthetic:ci-1"
+      },
+      "reviews": [
+        {
+          "aspect": "correctness",
+          "reviewer": "A",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "tests",
+          "reviewer": "B",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "design",
+          "reviewer": "C",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        }
+      ],
+      "preview": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "url": "https://preview.example.invalid/pr-1",
+        "deployment_url": "synthetic:deployment-1"
+      },
+      "scenarios": [
+        {
+          "id": "S1",
+          "version": "v1",
+          "approved": true,
+          "approval_source": "synthetic:approval-1",
+          "approved_version": "v1"
+        }
+      ],
+      "e2e": {
+        "status": "success",
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "url": "https://preview.example.invalid/pr-1",
+        "run_url": "synthetic:e2e-1",
+        "scenarios": {
+          "S1": "v1"
+        }
+      },
+      "merge_permission": {
+        "current": false
+      }
+    },
+    "vote": {
+      "operation": "vote",
+      "target": {
+        "repository": "example/sample",
+        "week_start": "2026-11-02",
+        "week_end": "2026-11-08",
+        "stream": "bug",
+        "candidate_id": "BUG-1",
+        "version": "v1",
+        "timezone": "Etc/UTC"
+      },
+      "voters": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "ballots": [
+        {
+          "voter": "A",
+          "status": "completed",
+          "independent": true,
+          "target": {
+            "repository": "example/sample",
+            "week_start": "2026-11-02",
+            "week_end": "2026-11-08",
+            "stream": "bug",
+            "candidate_id": "BUG-1",
+            "version": "v1",
+            "timezone": "Etc/UTC"
+          },
+          "decision": "yes",
+          "reason": "synthetic evidence supports this vote"
+        },
+        {
+          "voter": "B",
+          "status": "completed",
+          "independent": true,
+          "target": {
+            "repository": "example/sample",
+            "week_start": "2026-11-02",
+            "week_end": "2026-11-08",
+            "stream": "bug",
+            "candidate_id": "BUG-1",
+            "version": "v1",
+            "timezone": "Etc/UTC"
+          },
+          "decision": "yes",
+          "reason": "synthetic evidence supports this vote"
+        },
+        {
+          "voter": "C",
+          "status": "completed",
+          "independent": true,
+          "target": {
+            "repository": "example/sample",
+            "week_start": "2026-11-02",
+            "week_end": "2026-11-08",
+            "stream": "bug",
+            "candidate_id": "BUG-1",
+            "version": "v1",
+            "timezone": "Etc/UTC"
+          },
+          "decision": "yes",
+          "reason": "synthetic evidence supports this vote"
+        },
+        {
+          "voter": "D",
+          "status": "completed",
+          "independent": true,
+          "target": {
+            "repository": "example/sample",
+            "week_start": "2026-11-02",
+            "week_end": "2026-11-08",
+            "stream": "bug",
+            "candidate_id": "BUG-1",
+            "version": "v1",
+            "timezone": "Etc/UTC"
+          },
+          "decision": "no",
+          "reason": "synthetic residual concern"
+        },
+        {
+          "voter": "E",
+          "status": "completed",
+          "independent": true,
+          "target": {
+            "repository": "example/sample",
+            "week_start": "2026-11-02",
+            "week_end": "2026-11-08",
+            "stream": "bug",
+            "candidate_id": "BUG-1",
+            "version": "v1",
+            "timezone": "Etc/UTC"
+          },
+          "decision": "no",
+          "reason": "synthetic residual concern"
+        }
+      ]
+    },
+    "weekly": {
+      "operation": "weekly",
+      "target": {
+        "repository": "example/sample",
+        "week_start": "2026-11-02",
+        "week_end": "2026-11-08",
+        "stream": "bug",
+        "candidate_id": "BUG-1",
+        "version": "v1",
+        "timezone": "Etc/UTC"
+      },
+      "send_status": "confirmed",
+      "existing": []
+    },
+    "effect": {
+      "operation": "effect",
+      "issue_url": "synthetic:improvement-issue-1",
+      "before": {
+        "recorded_before_execution": true,
+        "criteria": {
+          "metric": "synthetic review turnaround hours",
+          "source": "synthetic:review-records",
+          "comparison_period": "equal seven-day windows",
+          "denominator": "eligible completed reviews",
+          "success_condition": "decrease >= 2 hours",
+          "worsening_condition": "increase >= 1 hour",
+          "hold_condition": "smaller change or insufficient samples",
+          "direction": "lower",
+          "success_delta": 2,
+          "worsening_delta": 1,
+          "minimum_samples": 5,
+          "before_period": "2026-10-19/2026-10-25",
+          "after_period": "2026-10-26/2026-11-01"
+        },
+        "value": 8,
+        "samples": 10,
+        "period": "2026-10-19/2026-10-25",
+        "source": "synthetic:review-records",
+        "denominator": "eligible completed reviews",
+        "target": {
+          "repository": "example/sample",
+          "issue": "synthetic:improvement-issue-1",
+          "version": "v1"
+        }
+      },
+      "current_criteria": {
+        "metric": "synthetic review turnaround hours",
+        "source": "synthetic:review-records",
+        "comparison_period": "equal seven-day windows",
+        "denominator": "eligible completed reviews",
+        "success_condition": "decrease >= 2 hours",
+        "worsening_condition": "increase >= 1 hour",
+        "hold_condition": "smaller change or insufficient samples",
+        "direction": "lower",
+        "success_delta": 2,
+        "worsening_delta": 1,
+        "minimum_samples": 5,
+        "before_period": "2026-10-19/2026-10-25",
+        "after_period": "2026-10-26/2026-11-01"
+      },
+      "after": {
+        "value": 5,
+        "samples": 10,
+        "period": "2026-10-26/2026-11-01",
+        "source": "synthetic:review-records",
+        "denominator": "eligible completed reviews",
+        "target": {
+          "repository": "example/sample",
+          "issue": "synthetic:improvement-issue-1",
+          "version": "v1"
+        },
+        "commit": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "comparable": true,
+      "recheck_target": "synthetic:improvement-issue-1",
+      "recheck_at": "2026-11-09",
+      "target": {
+        "repository": "example/sample",
+        "issue": "synthetic:improvement-issue-1",
+        "version": "v1"
+      },
+      "implementation": {
+        "target": {
+          "repository": "example/sample",
+          "issue": "synthetic:improvement-issue-1",
+          "version": "v1"
+        },
+        "status": "completed",
+        "commit": "dddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    "startup_missing_approval_target": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "records": [
+        "synthetic:record-1"
+      ]
+    },
+    "startup_missing_records": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1"
+    },
+    "quality_missing_repository": {
+      "operation": "quality",
+      "branch": "feature/sample",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "review_round": 1,
+      "ci": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "run_url": "synthetic:ci-1"
+      },
+      "reviews": [
+        {
+          "aspect": "correctness",
+          "reviewer": "A",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "tests",
+          "reviewer": "B",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "design",
+          "reviewer": "C",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        }
+      ],
+      "preview": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "url": "https://preview.example.invalid/pr-1",
+        "deployment_url": "synthetic:deployment-1"
+      },
+      "scenarios": [
+        {
+          "id": "S1",
+          "version": "v1",
+          "approved": true,
+          "approval_source": "synthetic:approval-1",
+          "approved_version": "v1"
+        }
+      ],
+      "e2e": {
+        "status": "success",
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "url": "https://preview.example.invalid/pr-1",
+        "run_url": "synthetic:e2e-1",
+        "scenarios": {
+          "S1": "v1"
+        }
+      },
+      "merge_permission": {
+        "current": false
+      }
+    },
+    "quality_missing_branch": {
+      "operation": "quality",
+      "repository": "example/sample",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "review_round": 1,
+      "ci": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "run_url": "synthetic:ci-1"
+      },
+      "reviews": [
+        {
+          "aspect": "correctness",
+          "reviewer": "A",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "tests",
+          "reviewer": "B",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        },
+        {
+          "aspect": "design",
+          "reviewer": "C",
+          "independent": true,
+          "status": "completed",
+          "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p0": 0,
+          "p1": 0,
+          "unclassified": 0
+        }
+      ],
+      "preview": {
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "success",
+        "url": "https://preview.example.invalid/pr-1",
+        "deployment_url": "synthetic:deployment-1"
+      },
+      "scenarios": [
+        {
+          "id": "S1",
+          "version": "v1",
+          "approved": true,
+          "approval_source": "synthetic:approval-1",
+          "approved_version": "v1"
+        }
+      ],
+      "e2e": {
+        "status": "success",
+        "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "url": "https://preview.example.invalid/pr-1",
+        "run_url": "synthetic:e2e-1",
+        "scenarios": {
+          "S1": "v1"
+        }
+      },
+      "merge_permission": {
+        "current": false
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "承認と再開記録が一致すれば既存taskを継続",
+      "input": "startup",
+      "changes": [],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "シナリオ未承認なら実装を待つ",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "承認済みでも別版なら実装を待つ",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": "v2"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "本人指示の出典不足は確認する",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "instruction_source"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "confirm_instruction"
+      }
+    },
+    {
+      "name": "同Issue別task稼働中なら新規起動しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": [
+            "synthetic:other-task"
+          ]
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "continue_existing_task"
+      }
+    },
+    {
+      "name": "送信結果不明なら再送せず現物取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "send_status"
+          ],
+          "value": "unknown"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開head変更なら古い成功を流用しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "head"
+          ],
+          "value": "cccccccccccccccccccccccccccccccccccccccc"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reverify_head"
+      }
+    },
+    {
+      "name": "再開でレビュー回数を戻さない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開記録不足を新規実行へ戻さない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous"
+          ],
+          "value": {}
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "空SHAは成功しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "head"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "全品質成功でも現在merge許可がなければ報告のみ",
+      "input": "quality",
+      "changes": [],
+      "expected": {
+        "status": "ready",
+        "action": "report_only"
+      }
+    },
+    {
+      "name": "現在の対象repoとbranchへの明示許可のみmerge候補",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "merge_permission"
+          ],
+          "value": {
+            "current": true,
+            "source": "synthetic:current-owner-permission",
+            "repository": "example/sample",
+            "branch": "feature/sample"
+          }
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "merge_eligible"
+      }
+    },
+    {
+      "name": "古いSHAのCI成功は流用しない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "ci",
+            "sha"
+          ],
+          "value": "cccccccccccccccccccccccccccccccccccccccc"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_ci"
+      }
+    },
+    {
+      "name": "レビュー未完了は成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "reviews",
+            1,
+            "status"
+          ],
+          "value": "incomplete"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "stop_review"
+      }
+    },
+    {
+      "name": "未分類の指摘が残れば収束にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "reviews",
+            1,
+            "unclassified"
+          ],
+          "value": 1
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "stop_review"
+      }
+    },
+    {
+      "name": "レビュー担当重複なら独立三観点にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "reviews",
+            1,
+            "reviewer"
+          ],
+          "value": "A"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "stop_review"
+      }
+    },
+    {
+      "name": "型違いの指摘件数をゼロ件にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "reviews",
+            0,
+            "p0"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "stop_review"
+      }
+    },
+    {
+      "name": "preview未完了ではE2Eを始めない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "preview",
+            "status"
+          ],
+          "value": "pending"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "await_preview"
+      }
+    },
+    {
+      "name": "E2E未実行は成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "e2e",
+            "status"
+          ],
+          "value": "not_run"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "request_approved_e2e"
+      }
+    },
+    {
+      "name": "skippedを成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "e2e",
+            "status"
+          ],
+          "value": "skipped"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_e2e"
+      }
+    },
+    {
+      "name": "別URLのE2E成功は使わない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "e2e",
+            "url"
+          ],
+          "value": "https://wrong.example.invalid"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_e2e"
+      }
+    },
+    {
+      "name": "別版シナリオのE2E成功は使わない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "e2e",
+            "scenarios"
+          ],
+          "value": {
+            "S1": "v0"
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_e2e"
+      }
+    },
+    {
+      "name": "同一候補版の独立5票中3賛成を採用",
+      "input": "vote",
+      "changes": [],
+      "expected": {
+        "status": "accepted",
+        "action": "check_duplicate_issue"
+      }
+    },
+    {
+      "name": "2賛成では採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            2,
+            "decision"
+          ],
+          "value": "no"
+        }
+      ],
+      "expected": {
+        "status": "rejected",
+        "action": "record_reasons"
+      }
+    },
+    {
+      "name": "同一担当の重複票では合格にしない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            4,
+            "voter"
+          ],
+          "value": "A"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "未完了票では合格にしない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            4,
+            "status"
+          ],
+          "value": "pending"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "別版の票を合算しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            2,
+            "target",
+            "version"
+          ],
+          "value": "v0"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "理由なしの票では合格にしない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            2,
+            "reason"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "独立でない票では合格にしない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots",
+            2,
+            "independent"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "不正な週次対象を採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "week_start"
+          ],
+          "value": "invalid"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "起票後は必要性を再投票しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "issue_url"
+          ],
+          "value": "synthetic:issue-existing"
+        },
+        {
+          "path": [
+            "ballots"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_issue"
+      }
+    },
+    {
+      "name": "記録がなければDiscussion準備候補",
+      "input": "weekly",
+      "changes": [],
+      "expected": {
+        "status": "ready",
+        "action": "prepare_discussion"
+      }
+    },
+    {
+      "name": "同じ週次実行は既存Discussionを再利用",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion"
+      }
+    },
+    {
+      "name": "週次投稿の応答不明なら再取得",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "send_status"
+          ],
+          "value": "unknown"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "既存同候補Issueがあれば重複作成しない",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "duplicate_issue_url"
+          ],
+          "value": "synthetic:issue-existing"
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_issue"
+      }
+    },
+    {
+      "name": "既存週次記録の重複は照合する",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {},
+            {}
+          ]
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reconcile_records"
+      }
+    },
+    {
+      "name": "事前固定基準で比較できれば改善成功を同Issueへ追記",
+      "input": "effect",
+      "changes": [],
+      "expected": {
+        "status": "success",
+        "action": "append_same_issue"
+      }
+    },
+    {
+      "name": "効果データ不足なら保留し再確認",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "samples"
+          ],
+          "value": 1
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "比較条件不一致なら保留",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "comparable"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "事後に基準を変えて成功にしない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "current_criteria",
+            "success_delta"
+          ],
+          "value": 1
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "悪化を成功として記録しない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "value"
+          ],
+          "value": 10
+        }
+      ],
+      "expected": {
+        "status": "worsened",
+        "action": "append_same_issue"
+      }
+    },
+    {
+      "name": "事前基準を記録していなければ保留",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "before",
+            "recorded_before_execution"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "数値でない効果測定を成功にしない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "value"
+          ],
+          "value": "5"
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "起動識別不足は委譲しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "repository"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定の承認版不一致は保留",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approved_version"
+          ],
+          "value": "v0"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "未実施の改善効果は成功にしない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "implementation",
+            "status"
+          ],
+          "value": "not_run"
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "別commitの改善効果は成功にしない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "commit"
+          ],
+          "value": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "別対象の改善効果は成功にしない",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "target"
+          ],
+          "value": {
+            "repository": "example/other",
+            "issue": "synthetic:other",
+            "version": "v1"
+          }
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "事前比較期間と異なる測定は保留",
+      "input": "effect",
+      "changes": [
+        {
+          "path": [
+            "after",
+            "period"
+          ],
+          "value": "2026-10-01/2026-10-02"
+        }
+      ],
+      "expected": {
+        "status": "held",
+        "action": "append_same_issue_and_recheck"
+      }
+    },
+    {
+      "name": "再開現在記録のapproval_target欠落は再取得",
+      "input": "startup_missing_approval_target",
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のrecords欠落は再取得",
+      "input": "startup_missing_records",
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のapproval_targetがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "approval_target"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のapproval_targetがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "approval_target"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のrecordsがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "records"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のrecordsがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "records"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のstageがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "stage"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のstageがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "stage"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のstop_reasonがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "stop_reason"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のstop_reasonがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "stop_reason"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のquestionsがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "questions"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のquestionsがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "questions"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開現在記録のprがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "pr"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開以前記録のprがnullなら再取得",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous",
+            "pr"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "質問と停止理由が空でも既知の空値として再開できる",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "questions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "stop_reason"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "stage"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "品質判定のrepositoryが空なら成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "repository"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "merge_permission"
+          ],
+          "value": {
+            "current": true,
+            "source": "synthetic:permission",
+            "repository": "",
+            "branch": ""
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定のrepositoryが空なら成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "repository"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "merge_permission"
+          ],
+          "value": {
+            "current": true,
+            "source": "synthetic:permission",
+            "repository": null,
+            "branch": null
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定のrepository欠落は再取得",
+      "input": "quality_missing_repository",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定のbranchが空なら成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "branch"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "merge_permission"
+          ],
+          "value": {
+            "current": true,
+            "source": "synthetic:permission",
+            "repository": "",
+            "branch": ""
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定のbranchが空なら成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "branch"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "merge_permission"
+          ],
+          "value": {
+            "current": true,
+            "source": "synthetic:permission",
+            "repository": null,
+            "branch": null
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "品質判定のbranch欠落は再取得",
+      "input": "quality_missing_branch",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "同じ週でも別系統のDiscussionを再利用しない",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "stream"
+          ],
+          "value": "refactor"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:bug-discussion"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "改善候補も同版独立五人中三賛成で採用",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        },
+        {
+          "path": [
+            "ballots",
+            0,
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        },
+        {
+          "path": [
+            "ballots",
+            1,
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        },
+        {
+          "path": [
+            "ballots",
+            2,
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        },
+        {
+          "path": [
+            "ballots",
+            3,
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        },
+        {
+          "path": [
+            "ballots",
+            4,
+            "target",
+            "stream"
+          ],
+          "value": "improvement"
+        }
+      ],
+      "expected": {
+        "status": "accepted",
+        "action": "check_duplicate_issue"
+      }
+    },
+    {
+      "name": "週のtimezone不明では週次対象を確定しない",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "timezone"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    }
+  ]
+}

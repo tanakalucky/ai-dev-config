@@ -28,6 +28,8 @@ python3 -m unittest discover -s .ai-config/tests -v
 | 用途 | Claude Code | Codex |
 | --- | --- | --- |
 | Issue ごとの開発進行 | `/development-orchestrator <repository/Issue> <再開情報>` | `$development-orchestrator <repository/Issue> <再開情報>` |
+| 週次の候補発見・採用 | `/weekly-discovery <repository/週範囲>` | `$weekly-discovery <repository/週範囲>` |
+| 開発ループの振返り・改善 | `/development-improvement <repository/分析期間>` | `$development-improvement <repository/分析期間>` |
 | 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
 | FSD導入・変更・配置案 | `/fsd 依頼内容` | `$config-fsd 依頼内容` |
 | レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
@@ -43,7 +45,9 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 Dots が選択・起動・追跡・停止後の再開を担当し、[共通手順](.ai-config/workflows/development-orchestrator.md)が1つの Issue の調査・本人確認・実装委譲・PR・独立レビュー・最終 SHA の品質確認を進める。新機能/仕様変更はシナリオへの本人の明確な承認後に実装する。既存のコピー方式とレビュー入口を使い、外部実行や merge の権限は各タスクで確認する。
 
-標準テストはコピー後の入口・リンク・安全境界・状態遷移の記述を静的に確認する。実モデルの動作検証とは別であり、委譲や外部 CI/E2E の成功を保証しない。リポジトリの CI はこの標準テストだけを実行し、アプリへコピーする5つの配布物には含めない。
+[週次課題発見](.ai-config/workflows/weekly-discovery.md)はバグ/リファクタの独立2系統と独立5人中3賛成の採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・before/after の効果確認を扱う。外部実行の接続・既存日次の更新・安全な停止は[導入テンプレート](.ai-config/templates/development-loop-integration.md)を参照する。外部スケジュールや自動投稿・merge/deployは別途許可された導入時に扱う。
+
+標準テストはコピー後の入口・リンク・安全境界・状態遷移の記述を静的に確認する。実行補助は合成データで証拠の整合性を確認する。いずれも実モデルの動作検証とは別であり、委譲や外部 CI/E2E の成功を保証しない。リポジトリの CI はこの標準テストだけを実行し、アプリへコピーする5つの配布物には含めない。
 
 ## 初期設定
 

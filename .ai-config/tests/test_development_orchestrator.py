@@ -8,6 +8,21 @@ from test_layout import ROOT, copy_distribution, frontmatter, resolved_links
 
 
 class DevelopmentOrchestratorTests(unittest.TestCase):
+    def test_通常PRを用いオーケストレーターが既存ラウンド管理を一本化する(self):
+        # 準備 (Arrange)
+        requirements = ("通常PRを既定", "実装側のまとめ役", "進行責任を持つ",
+                        "実作業担当", "別のラウンド管理を始めない",
+                        "オーケストレーターが実装・レビュー・修正を依頼",
+                        "回数と再依頼を一元管理", "最大3ラウンド")
+
+        # 実行 (Act)
+        content = read_workflow()
+
+        # 検証 (Assert)
+        for requirement in requirements:
+            self.assertIn(requirement, content)
+        self.assertNotIn("回数・修正・再依頼は実装担当が管理し", content)
+
     def test_コピーした両入口は同名で共通本文だけへ案内する(self):
         # 準備 (Arrange)
         with tempfile.TemporaryDirectory() as directory:
@@ -65,7 +80,7 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
         for requirement in requirements:
             self.assertIn(requirement, content)
         self.assertIn("明確な承認/必要な回答がない | 実装せず同じ記録で待機", transition[0])
-        self.assertIn("対象版と範囲への明確な承認/根拠ある回答 | 実装担当へ委譲", transition[1])
+        self.assertIn("対象版と範囲への明確な承認/根拠ある回答 | 実作業担当へ委譲", transition[1])
 
     def test_再開は現物と既存記録を照合し重複実行や無条件再送を避ける(self):
         # 準備 (Arrange)
@@ -150,7 +165,7 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
                         "クレジット購入・新規課金・契約は行わず",
                         "非公開情報・秘密・認証情報・生の私的ログを転載せず",
                         "repo 固有の資源/認証情報/契約を埋め込まない",
-                        "静的テストだけで実モデル", "週次発見・投票・自己改善の自動化")
+                        "静的テストだけで実モデル", "スケジューラーや生成基盤は作らない")
 
         # 実行 (Act)
         content = read_workflow()
