@@ -775,6 +775,97 @@
         "synthetic:record-1"
       ],
       "specification_evidence": "synthetic:existing-behavior"
+    },
+    "startup_new": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [],
+      "execution_url": "",
+      "resumed": false,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 0,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "pr": "not_created",
+      "stage": "investigation",
+      "stop_reason": "",
+      "questions": [],
+      "approval_target": "S1:v1",
+      "records": [],
+      "previous_status": "absent"
+    },
+    "startup_new_unknown": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [],
+      "execution_url": "",
+      "resumed": false,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 0,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "pr": "not_created",
+      "stage": "investigation",
+      "stop_reason": "",
+      "questions": [],
+      "approval_target": "S1:v1",
+      "records": []
+    },
+    "startup_resume_missing_previous": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "feature",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ]
     }
   },
   "cases": [
@@ -3580,14 +3671,69 @@
     },
     {
       "name": "稼働taskがなければ承認済み新規作業を委譲できる",
+      "input": "startup_new",
+      "changes": [],
+      "expected": {
+        "status": "ready",
+        "action": "delegate"
+      }
+    },
+    {
+      "name": "停止済み同Issueの三回台帳を新規扱いで無視しない",
       "input": "startup",
       "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
         {
           "path": [
             "resumed"
           ],
           "value": false
         },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": {
+            "repository": "example/sample",
+            "issue": "synthetic:issue-1",
+            "branch": "feature/sample",
+            "execution_url": "synthetic:task-1",
+            "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "review_round": 3,
+            "pr": "synthetic:pr-1",
+            "stage": "implementation",
+            "stop_reason": "owner_answer",
+            "questions": [
+              "Q1"
+            ],
+            "approval_target": "S1:v1",
+            "records": [
+              "synthetic:record-1"
+            ]
+          }
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止済み同Issueは三回の記録を引き継いで再開する",
+      "input": "startup",
+      "changes": [
         {
           "path": [
             "active_executions"
@@ -3598,12 +3744,439 @@
           "path": [
             "previous"
           ],
-          "value": null
+          "value": {
+            "repository": "example/sample",
+            "issue": "synthetic:issue-1",
+            "branch": "feature/sample",
+            "execution_url": "synthetic:task-1",
+            "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "review_round": 3,
+            "pr": "synthetic:pr-1",
+            "stage": "implementation",
+            "stop_reason": "owner_answer",
+            "questions": [
+              "Q1"
+            ],
+            "approval_target": "S1:v1",
+            "records": [
+              "synthetic:record-1"
+            ]
+          }
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 3
         }
       ],
       "expected": {
         "status": "ready",
-        "action": "delegate"
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "found台帳は稼働状態にかかわらず新規起動へ戻さない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": "found"
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止中台帳の不明や不正値Noneを不在にしない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止中台帳の不明や不正値'unknown'を不在にしない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": "unknown"
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止中台帳の不明や不正値{}を不在にしない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": {}
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止中台帳の不明や不正値[]を不在にしない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "停止中台帳の不明や不正値0を不在にしない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": 0
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "別Issueの台帳も新規起動の根拠として捨てない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous",
+            "issue"
+          ],
+          "value": "synthetic:other-issue"
+        },
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 0
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "新規の台帳状態'unknown'では不在確認にならない",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": "unknown"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "新規の台帳状態'found'では不在確認にならない",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": "found"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "新規の台帳状態Noneでは不在確認にならない",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "新規の台帳状態'not_a_status'では不在確認にならない",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": "not_a_status"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "不在宣言と既存台帳の矛盾は再取得する",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous"
+          ],
+          "value": {
+            "repository": "example/sample",
+            "issue": "synthetic:issue-1",
+            "branch": "feature/sample",
+            "execution_url": "synthetic:task-1",
+            "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "review_round": 3,
+            "pr": "synthetic:pr-1",
+            "stage": "implementation",
+            "stop_reason": "owner_answer",
+            "questions": [
+              "Q1"
+            ],
+            "approval_target": "S1:v1",
+            "records": [
+              "synthetic:record-1"
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "不在宣言でもnull台帳を明示した矛盾は再取得する",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "previous"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "真新規でレビュー回数が既にある場合は再取得する",
+      "input": "startup_new",
+      "changes": [
+        {
+          "path": [
+            "review_round"
+          ],
+          "value": 3
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "既存台帳があってもunknown宣言なら照合へ戻す",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "previous_status"
+          ],
+          "value": "unknown"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "台帳の提供がないだけでは真新規と認定しない",
+      "input": "startup_new_unknown",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "再開の台帳欠落は現物再取得へ戻す",
+      "input": "startup_resume_missing_previous",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
       }
     }
   ]

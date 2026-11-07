@@ -2,6 +2,9 @@
 
 JSON object の operation は startup / quality / vote / weekly / effect。
 具体的な入力は tests/fixtures/orchestrator_dry_run.json を参照する。
+startup の previous_status は found / absent / unknown。既存の previous dict は
+指定省略時だけ found と扱う。真新規は absent・previous キーなし・review_round=0 を
+明示する。missing/null だけでは不在確認にせず、現物の確認は呼出側が行う。
 出力 status/action/reasons は判断材料であり、外部操作の許可ではない。
 """
 
@@ -54,9 +57,13 @@ def startup(evidence: dict) -> dict:
     if active and not evidence["resumed"]:
         return result("blocked", "reacquire", "existing_task_requires_resume_record")
 
+    previous = evidence.get("previous")
+    previous_status = evidence.get("previous_status", "found" if isinstance(previous, dict) else "unknown")
+    if not evidence["resumed"]:
+        if previous_status != "absent" or "previous" in evidence or evidence["review_round"] != 0:
+            return result("blocked", "reacquire", "new_task_requires_confirmed_absence")
     if evidence["resumed"]:
-        previous = evidence["previous"]
-        if not valid_resume_record(previous) or not valid_resume_record(evidence):
+        if previous_status != "found" or not valid_resume_record(previous) or not valid_resume_record(evidence):
             return result("blocked", "reacquire", "incomplete_resume_record")
         if any(previous[field] != evidence.get(field)
                for field in ("repository", "issue", "execution_url", "branch", "pr", "base")):
