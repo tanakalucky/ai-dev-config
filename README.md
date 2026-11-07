@@ -1,8 +1,8 @@
 # Claude Code / Codex 共通設定
 
 アプリのリポジトリへコピーして、規約・認識合わせ・Issue の開発進行・FSD・独立3観点レビュー・Cloudflare運用を共有する。
-共通本文は`AGENTS.md`と`.ai-config/`、ツール別の入口は`.agents/skills/`と`.claude/skills/`に置く。
-生成処理や外部の設定リポジトリへの参照は不要。
+共通本文は`AGENTS.md`と`.ai-config/`、薄い入口は`.agents/skills/`と`.claude/skills/`。
+生成処理や外部設定repoへの参照は不要。
 
 ## アプリへの配置
 
@@ -43,11 +43,11 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 ## Issue ごとの開発進行
 
-AIまたは人間が担うCoordinator（コーディネーター）が選択・起動・追跡・停止後の再開を担当し、[共通手順](.ai-config/workflows/development-orchestrator.md)が1つの Issue の調査・本人確認・実装委譲・PR・独立レビュー・最終 SHA の品質確認を進める。新機能/仕様変更はシナリオへの本人の明確な承認後に実装する。既存のコピー方式とレビュー入口を使い、外部実行や merge の権限は各タスクで確認する。
+[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）が選択・起動・追跡・再開を担当し、オーケストレーターが調査・本人確認・実装委譲・PR・品質確認を進める。新機能/仕様変更は本人のシナリオ承認後に実装する。外部操作の許可はタスクごとに確認する。
 
-[週次課題発見](.ai-config/workflows/weekly-discovery.md)はバグ/リファクタの独立2系統と独立5人中3賛成の採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・before/after の効果確認を扱う。起動・再開・安全境界は[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を参照する。外部スケジュールや自動投稿・merge/deployは別途許可された導入時に扱う。
+[週次課題発見](.ai-config/workflows/weekly-discovery.md)は独立2系統の調査と候補採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・効果確認を扱う。採用は独立5人中3賛成。外部スケジュール・自動投稿・merge/deployは別途許可が必要。
 
-標準テストはコピー後の入口・リンク・安全境界・状態遷移の記述を静的に確認する。実行補助は合成データで証拠の整合性を確認する。いずれも実モデルの動作検証とは別であり、委譲や外部 CI/E2E の成功を保証しない。リポジトリの CI はこの標準テストだけを実行し、アプリへコピーする5つの配布物には含めない。
+標準テストはコピー先の入口・リンク・安全境界・状態遷移を静的に確認し、[実行補助](.ai-config/helpers/orchestrator_dry_run.py)は合成証拠の整合性を確認する。実モデルや外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、5つの配布物には含めない。
 
 ## 初期設定
 

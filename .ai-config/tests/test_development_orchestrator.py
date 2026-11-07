@@ -23,7 +23,7 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
         requirements = ("通常PRを既定", "実装側のまとめ役", "進行責任を持つ",
                         "実作業担当", "別のラウンド管理を始めない",
                         "オーケストレーターが実装・レビュー・修正を依頼",
-                        "回数と再依頼を一元管理", "最大3ラウンド")
+                        "回数と再依頼を一元管理")
 
         # 実行 (Act)
         content = read_workflow()
@@ -32,6 +32,9 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
         for requirement in requirements:
             self.assertIn(requirement, content)
         self.assertNotIn("回数・修正・再依頼は実装担当が管理し", content)
+        rounds = ROOT / ".ai-config/review/rounds.md"
+        self.assertIn(rounds, resolved_links(ROOT / ".ai-config/workflows/development-orchestrator.md"))
+        self.assertIn("最大3ラウンド", rounds.read_text(encoding="utf-8"))
 
     def test_コピーした両入口は同名で共通本文だけへ案内する(self):
         # 準備 (Arrange)
@@ -120,9 +123,7 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
                         "同じ固定base→対象head の全差分", "実装会話・判断を継承しない",
                         "新しい独立サブエージェント3人", "正確性/安全性・テスト・設計/可読性を各1回",
                         "同じ対象差分・要件と承認済みシナリオ・必要規約", "自己正当化を継承しない",
-                        "読取専用", "秘密/ignored を除外", "shell は Git 読取に限定",
-                        "未確認だけでは停止しない", "未確認の保証もしない",
-                        "最大3ラウンド", "記録形式は既存の定義を変更しない")
+                        "読取専用")
 
         # 実行 (Act)
         content = read_workflow()
@@ -131,6 +132,23 @@ class DevelopmentOrchestratorTests(unittest.TestCase):
         for requirement in requirements:
             with self.subTest(requirement=requirement):
                 self.assertIn(requirement, content)
+        # 参照へ集約した条件は、workflowの到達先と正本の内容を両方確認する。
+        contracts = {
+            "review/policy.md": ("ignoredファイルとsecrets", "shellではGit読取コマンドだけ"),
+            "review/rounds.md": ("最大3ラウンド", "回数を引き継ぎ、上限をリセットしない"),
+            "review/records.md": ("## 固定形式", "最初の呼出前", "保存後の本文でも同じ照合"),
+        }
+        links = resolved_links(ROOT / ".ai-config/workflows/development-orchestrator.md")
+        for name, phrases in contracts.items():
+            path = ROOT / ".ai-config" / name
+            self.assertIn(path, links)
+            for phrase in phrases:
+                self.assertIn(phrase, path.read_text(encoding="utf-8"))
+        runtime = ROOT / ".agents/review-runtime.md"
+        self.assertIn(runtime, links)
+        runtime_text = runtime.read_text(encoding="utf-8")
+        self.assertIn("確認できないことだけを理由に開始を中止しない", runtime_text)
+        self.assertIn("保証されたとは扱わない", runtime_text)
 
     def test_古いheadや未完了レビューでは最終品質を達成しない(self):
         # 準備 (Arrange)

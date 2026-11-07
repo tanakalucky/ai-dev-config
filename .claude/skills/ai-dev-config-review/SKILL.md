@@ -7,7 +7,7 @@ disallowed-tools: Write, Edit
 
 # ai-dev-config-review
 
-リンクはこのSKILL.mdの場所を基準に解決し、指定した文書を全文読んでから実行する。読めなければ不足を報告する。
+リンクはこのSKILL.mdからの相対参照。指定文書を全文読んでから実行し、読めなければ不足を報告する。
 
 [共通レビュー方針](../../../.ai-config/review/policy.md)を適用する。
 [ラウンドの共通定義](../../../.ai-config/review/rounds.md)を読み、実装担当から渡されたラウンドを実行する。
