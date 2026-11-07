@@ -26,6 +26,10 @@ Markdownリンクの自動展開を前提にせず、明示的に読む。見つ
 レビューを依頼された場合はClaude Codeの`/ai-dev-config-review`、Codexの`$config-review`を使う。
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
+1つの Issue の開発進行には両ツールの`development-orchestrator`を使い、
+[共通手順](.ai-config/workflows/development-orchestrator.md)を全文読む。
+Dots は Issue の選択・起動・追跡・再開、オーケストレーターは受け取った Issue の進行を担当する。
+
 フロントエンドの新規作成・変更では[FSDルール](.ai-config/rules/fsd.md)を全文読む。
 Claude Codeの`/fsd`、Codexの`$config-fsd`から導入・変更の共通手順を使う。
 

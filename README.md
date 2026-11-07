@@ -1,6 +1,6 @@
 # Claude Code / Codex 共通設定
 
-アプリのリポジトリへコピーして、規約・認識合わせ・FSD・独立3観点レビュー・Cloudflare運用を共有する。
+アプリのリポジトリへコピーして、規約・認識合わせ・Issue の開発進行・FSD・独立3観点レビュー・Cloudflare運用を共有する。
 共通本文は`AGENTS.md`と`.ai-config/`、ツール別の入口は`.agents/skills/`と`.claude/skills/`に置く。
 生成処理や外部の設定リポジトリへの参照は不要。
 
@@ -27,6 +27,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 | 用途 | Claude Code | Codex |
 | --- | --- | --- |
+| Issue ごとの開発進行 | `/development-orchestrator <repository/Issue> <再開情報>` | `$development-orchestrator <repository/Issue> <再開情報>` |
 | 認識合わせ | `/clarify 依頼内容` | `$config-clarify 依頼内容` |
 | FSD導入・変更・配置案 | `/fsd 依頼内容` | `$config-fsd 依頼内容` |
 | レビュー | `/ai-dev-config-review <比較元またはcommit> <要件>` | `$config-review <比較元またはcommit> <要件>` |
@@ -37,6 +38,12 @@ python3 -m unittest discover -s .ai-config/tests -v
 例: 「このアプリにCloudflareのPRプレビュー運用を導入して」。PRごとの作成・更新・URLコメント・cleanupと、mainの成功CIからの本番反映を組み立てる。
 詳細は[Cloudflare運用](.ai-config/rules/cloudflare-deploy.md)、[レビュー方針](.ai-config/review/policy.md)、[ラウンドと停止条件](.ai-config/review/rounds.md)を参照。
 各入口に参照先の全文読取を指示しており、Markdownリンクの自動展開は前提にしない。
+
+## Issue ごとの開発進行
+
+Dots が選択・起動・追跡・停止後の再開を担当し、[共通手順](.ai-config/workflows/development-orchestrator.md)が1つの Issue の調査・本人確認・実装委譲・PR・独立レビュー・最終 SHA の品質確認を進める。新機能/仕様変更はシナリオへの本人の明確な承認後に実装する。既存のコピー方式とレビュー入口を使い、外部実行や merge の権限は各タスクで確認する。
+
+標準テストはコピー後の入口・リンク・安全境界・状態遷移の記述を静的に確認する。実モデルの動作検証とは別であり、委譲や外部 CI/E2E の成功を保証しない。リポジトリの CI はこの標準テストだけを実行し、アプリへコピーする5つの配布物には含めない。
 
 ## 初期設定
 
