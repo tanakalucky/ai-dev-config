@@ -43,7 +43,7 @@ python3 -m unittest discover -s .ai-config/tests -v
 
 ## Issue ごとの開発進行
 
-Dots が選択・起動・追跡・停止後の再開を担当し、[共通手順](.ai-config/workflows/development-orchestrator.md)が1つの Issue の調査・本人確認・実装委譲・PR・独立レビュー・最終 SHA の品質確認を進める。新機能/仕様変更はシナリオへの本人の明確な承認後に実装する。既存のコピー方式とレビュー入口を使い、外部実行や merge の権限は各タスクで確認する。
+AIまたは人間が担うCoordinator（コーディネーター）が選択・起動・追跡・停止後の再開を担当し、[共通手順](.ai-config/workflows/development-orchestrator.md)が1つの Issue の調査・本人確認・実装委譲・PR・独立レビュー・最終 SHA の品質確認を進める。新機能/仕様変更はシナリオへの本人の明確な承認後に実装する。既存のコピー方式とレビュー入口を使い、外部実行や merge の権限は各タスクで確認する。
 
 [週次課題発見](.ai-config/workflows/weekly-discovery.md)はバグ/リファクタの独立2系統と独立5人中3賛成の採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・before/after の効果確認を扱う。外部実行の接続・既存日次の更新・安全な停止は[導入テンプレート](.ai-config/templates/development-loop-integration.md)を参照する。外部スケジュールや自動投稿・merge/deployは別途許可された導入時に扱う。
 
