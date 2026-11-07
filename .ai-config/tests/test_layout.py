@@ -11,7 +11,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
 REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
-NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd")
+SHARED_NAMES = ("development-orchestrator", "weekly-discovery", "development-improvement")
+NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd", *SHARED_NAMES)
 
 
 class LayoutTests(unittest.TestCase):
@@ -96,7 +97,7 @@ class LayoutTests(unittest.TestCase):
     def test_codex_does_not_inherit_claude_frontmatter(self):
         """Codexのモデルや権限をClaudeのmetadataで設定したように見せない。"""
         # 準備 (Arrange)
-        paths = {name: ROOT / f".agents/skills/config-{name}/SKILL.md" for name in NAMES}
+        paths = {name: skill_path(ROOT, ".agents", name) for name in NAMES}
 
         # 実行 (Act)
         entries = [(name, frontmatter(path), resolved_links(path)) for name, path in paths.items()]
@@ -426,7 +427,7 @@ def distribution_markdown(root: Path) -> list:
 
 
 def skill_path(root: Path, host: str, name: str) -> Path:
-    if host == ".agents":
+    if host == ".agents" and name not in SHARED_NAMES:
         entry = f"config-{name}"
     else:
         entry = "ai-dev-config-review" if name == "review" else name
