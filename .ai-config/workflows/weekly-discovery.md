@@ -1,7 +1,7 @@
 # 週次の課題発見と採用
 
 この手順は候補の発見・Discussion での独立投票・採用 Issue の引渡しを扱う。
-外部スケジュールや自動投稿は有効化しない。[導入・接続契約](../templates/development-loop-integration.md)と
+外部スケジュールや自動投稿は有効化しない。
 対象 repo の AGENTS.md・規約・公開範囲・各操作の許可を確認して使う。
 採用後の実装は[Issue ごとの開発手順](development-orchestrator.md)へ渡し、必要性を再投票しない。
 

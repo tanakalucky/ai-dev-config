@@ -32,7 +32,7 @@ Coordinator（コーディネーター）はAIでも人間でも担える役割�
 オーケストレーターは受け取った Issue の進行を担当する。
 週次候補は同名の`weekly-discovery`から[課題発見手順](.ai-config/workflows/weekly-discovery.md)、
 運用改善は同名の`development-improvement`から[振返り・効果確認](.ai-config/workflows/development-improvement.md)を全文読む。
-外部実行への導入には[接続・導入テンプレート](.ai-config/templates/development-loop-integration.md)を使い、保存だけで有効化しない。
+外部実行や既存設定の変更は、対象と本人の許可を確認する。この記載だけで外部設定・スケジュールを有効化しない。
 
 フロントエンドの新規作成・変更では[FSDルール](.ai-config/rules/fsd.md)を全文読む。
 Claude Codeの`/fsd`、Codexの`$config-fsd`から導入・変更の共通手順を使う。

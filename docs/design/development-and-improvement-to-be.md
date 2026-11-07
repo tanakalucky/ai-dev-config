@@ -171,7 +171,7 @@ mergeは対象repo/branchと現在の明示許可がある場合だけ。deploy�
 | [AGENTS](../../AGENTS.md) | Coordinatorの選択・起動・追跡・再開を記し、Issueの進行は共通本文を参照する | 外部の依頼とrepo内部の進行の境界が重なる |
 | [development-orchestrator](../../.ai-config/workflows/development-orchestrator.md) | 冒頭/起動再開はCoordinatorを主体にする一方、第3節はオーケストレーターが停止再開・ラウンドを一元管理する | 同じ追跡・再開について責務が重複。後者の一元管理をTo-BeのIssue側責任として整理した |
 | [weekly-discovery](../../.ai-config/workflows/weekly-discovery.md) | repo内の独立2調査・5票・記録・起票を定め、末尾でCoordinatorへ選択・起動・追跡・再開を渡す | 週次完了と実装依頼受理後を分ける必要がある。起票後の起動時点は未合意として残す |
-| [integrationテンプレート](../../.ai-config/templates/development-loop-integration.md) | Coordinatorを起動/継続/停止再開の責任者とし、出入力欄に詳細SHA/回数を含める | 外部依頼/結果の受渡しと内部状態管理が混在している |
+| 旧integrationテンプレート（読取基準headの `.ai-config/templates/development-loop-integration.md`。現行では削除） | Coordinatorを起動/継続/停止再開の責任者とし、出入力欄に詳細SHA/回数を含める | 外部依頼/結果の受渡しと内部状態管理が混在している |
 | [development-improvement](../../.ai-config/workflows/development-improvement.md) | 独立3分析、改善5票、採用Issue化、実施前指標、同Issueへの比較追記と保留を定める | 循環の部品は本文にある。依頼後の担当と引渡しをこの資料で明示した |
 | [helper](../../.ai-config/helpers/orchestrator_dry_run.py)・[入口](../../.agents/skills/development-orchestrator/SKILL.md) | helperは入力証拠の整合性判定、入口は共通本文の読取を指示する | 起動・投稿・委譲や外部品質条件を技術的に強制する実行基盤ではない |
 

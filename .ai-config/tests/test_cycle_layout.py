@@ -11,8 +11,7 @@ class CycleLayoutTests(unittest.TestCase):
     def test_コピー先でもCoordinatorの役割とDotsの製品例を区別する(self):
         # 準備 (Arrange)
         names = ("AGENTS.md", ".ai-config/workflows/development-orchestrator.md",
-                 ".ai-config/workflows/weekly-discovery.md",
-                 ".ai-config/templates/development-loop-integration.md")
+                 ".ai-config/workflows/weekly-discovery.md")
         with tempfile.TemporaryDirectory() as directory:
             copied = Path(directory).resolve()
             copy_distribution(copied)
@@ -27,7 +26,7 @@ class CycleLayoutTests(unittest.TestCase):
                     self.assertNotIn(old_role, content)
             for name in names[:2]:
                 self.assertIn("Coordinator（コーディネーター）はAIでも人間でも担える役割", contents[name])
-            self.assertIn("実行ツールの既存 UI（例: Dots UI）", contents[names[-1]])
+            self.assertIn("実行ツールの既存 UI（例: Dots UI）", contents[names[1]])
 
     def test_コピー後の三用途の入口が同名で同じ共通本文だけを参照する(self):
         # 準備 (Arrange)
