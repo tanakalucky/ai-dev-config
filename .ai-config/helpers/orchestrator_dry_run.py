@@ -51,6 +51,8 @@ def startup(evidence: dict) -> dict:
         return result("blocked", "reacquire", "invalid_execution_records")
     if len(active) > 1 or (active and active[0] != evidence.get("execution_url")):
         return result("blocked", "continue_existing_task", "duplicate_execution")
+    if active and not evidence["resumed"]:
+        return result("blocked", "reacquire", "existing_task_requires_resume_record")
 
     if evidence["resumed"]:
         previous = evidence["previous"]
@@ -101,9 +103,7 @@ def quality(evidence: dict) -> dict:
     approval = change_approval(evidence, scenarios)
     if approval:
         return approval
-    if (not isinstance(scenarios, list) or not scenarios
-            or any(not isinstance(scenario, dict) or not nonempty(scenario.get("id"))
-                   or not nonempty(scenario.get("version")) for scenario in scenarios)
+    if (not valid_scenario_targets(scenarios)
             or len({scenario["id"] for scenario in scenarios}) != len(scenarios)):
         return result("blocked", "verify_e2e", "invalid_scenario_mapping")
     e2e = evidence["e2e"]
@@ -125,13 +125,17 @@ def quality(evidence: dict) -> dict:
 def vote(evidence: dict) -> dict:
     """同じ候補/版の独立5担当全票を確認する。起票済みは再投票しない。"""
     if evidence.get("issue_url"):
+        if not nonempty(evidence["issue_url"]):
+            return result("blocked", "correct_input", "invalid_existing_issue")
         return result("existing", "reuse_issue", "already_issued")
     target = evidence["target"]
     if not valid_target(target) or not nonempty(target.get("version")):
         return result("blocked", "correct_input", "invalid_vote_target")
     voters, ballots = evidence["voters"], evidence["ballots"]
-    if (len(voters) != 5 or len(set(voters)) != 5 or any(not nonempty(voter) for voter in voters)
-            or len(ballots) != 5 or {ballot["voter"] for ballot in ballots} != set(voters)):
+    if (not isinstance(voters, list) or not isinstance(ballots, list)
+            or len(voters) != 5 or len(set(voters)) != 5 or any(not nonempty(voter) for voter in voters)
+            or len(ballots) != 5 or any(not isinstance(ballot, dict) for ballot in ballots)
+            or {ballot["voter"] for ballot in ballots} != set(voters)):
         return result("blocked", "complete_vote", "invalid_or_duplicate_voters")
     if any(ballot.get("status") != "completed" or ballot.get("independent") is not True
            or ballot.get("target") != target or not nonempty(ballot.get("reason"))
@@ -239,6 +243,8 @@ def change_approval(evidence: dict, scenarios):
     """本人承認の要否を起動と品質判定で共有する。動作変更はspecificationへ分類する。"""
     change_type = evidence["change_type"]
     if change_type in ("bug", "refactor"):
+        if not valid_scenario_targets(scenarios):
+            return result("blocked", "correct_input", "invalid_scenario_mapping")
         if not nonempty(evidence.get("specification_evidence")):
             return result("waiting", "clarify", "ambiguous_existing_behavior")
         return None
@@ -251,6 +257,12 @@ def change_approval(evidence: dict, scenarios):
                    or scenario["version"] != scenario["approved_version"] for scenario in scenarios)):
         return result("waiting", "wait_approval", "scenario_unapproved")
     return None
+
+
+def valid_scenario_targets(scenarios) -> bool:
+    return (isinstance(scenarios, list) and bool(scenarios)
+            and all(isinstance(scenario, dict) and nonempty(scenario.get("id"))
+                    and nonempty(scenario.get("version")) for scenario in scenarios))
 
 
 def valid_resume_record(record) -> bool:

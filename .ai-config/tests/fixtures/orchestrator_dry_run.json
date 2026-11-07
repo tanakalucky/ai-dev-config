@@ -573,6 +573,208 @@
         "current": false
       },
       "change_type": "feature"
+    },
+    "startup_bug": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "bug",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ],
+      "specification_evidence": "synthetic:existing-behavior"
+    },
+    "startup_bug_missing_scenario": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "bug",
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ],
+      "specification_evidence": "synthetic:existing-behavior"
+    },
+    "startup_refactor": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "refactor",
+      "scenario": {
+        "id": "S1",
+        "version": "v1",
+        "approved_version": "v1",
+        "approved": true,
+        "approval_source": "synthetic:approval-1"
+      },
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ],
+      "specification_evidence": "synthetic:existing-behavior"
+    },
+    "startup_refactor_missing_scenario": {
+      "operation": "startup",
+      "instruction_source": "synthetic:owner-instruction-1",
+      "send_status": "confirmed",
+      "active_executions": [
+        "synthetic:task-1"
+      ],
+      "execution_url": "synthetic:task-1",
+      "resumed": true,
+      "repository": "example/sample",
+      "issue": "synthetic:issue-1",
+      "branch": "feature/sample",
+      "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "review_round": 1,
+      "change_type": "refactor",
+      "previous": {
+        "repository": "example/sample",
+        "issue": "synthetic:issue-1",
+        "branch": "feature/sample",
+        "execution_url": "synthetic:task-1",
+        "base": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "review_round": 1,
+        "pr": "synthetic:pr-1",
+        "stage": "implementation",
+        "stop_reason": "owner_answer",
+        "questions": [
+          "Q1"
+        ],
+        "approval_target": "S1:v1",
+        "records": [
+          "synthetic:record-1"
+        ]
+      },
+      "pr": "synthetic:pr-1",
+      "stage": "implementation",
+      "stop_reason": "owner_answer",
+      "questions": [
+        "Q1"
+      ],
+      "approval_target": "S1:v1",
+      "records": [
+        "synthetic:record-1"
+      ],
+      "specification_evidence": "synthetic:existing-behavior"
     }
   },
   "cases": [
@@ -2331,7 +2533,7 @@
       ],
       "expected": {
         "status": "blocked",
-        "action": "verify_e2e"
+        "action": "correct_input"
       }
     },
     {
@@ -2674,6 +2876,734 @@
       "expected": {
         "status": "blocked",
         "action": "reconcile_records"
+      }
+    },
+    {
+      "name": "bugの検証scenario欠落では委譲しない",
+      "input": "startup_bug_missing_scenario",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの不正scenario型Noneでは委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの不正scenario型{}では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": {}
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの不正scenario型[]では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの不正scenario型42では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": 42
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの不正scenario型'S1'では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": "S1"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのid不正値Noneでは委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのid不正値''では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのid不正値' 'では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのid不正値7では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": 7
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのid不正値[]では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのversion不正値Noneでは委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのversion不正値''では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのversion不正値' 'では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのversion不正値7では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": 7
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugの検証scenarioのversion不正値[]では委譲しない",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "bugは検証対象があれば本人承認なしで委譲できる",
+      "input": "startup_bug",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenario",
+            "approval_source"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "scenario",
+            "approved_version"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "refactorの検証scenario欠落では委譲しない",
+      "input": "startup_refactor_missing_scenario",
+      "changes": [],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの不正scenario型Noneでは委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの不正scenario型{}では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": {}
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの不正scenario型[]では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの不正scenario型42では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": 42
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの不正scenario型'S1'では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario"
+          ],
+          "value": "S1"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのid不正値Noneでは委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのid不正値''では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのid不正値' 'では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのid不正値7では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": 7
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのid不正値[]では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "id"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのversion不正値Noneでは委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのversion不正値''では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのversion不正値' 'では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのversion不正値7では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": 7
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorの検証scenarioのversion不正値[]では委譲しない",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "refactorは検証対象があれば本人承認なしで委譲できる",
+      "input": "startup_refactor",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenario",
+            "approval_source"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "scenario",
+            "approved_version"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "投票のvotersがlist契約を満たさなければ採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "voters"
+          ],
+          "value": "ABCDE"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "投票のvotersがlist契約を満たさなければ採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "voters"
+          ],
+          "value": {
+            "A": 1,
+            "B": 1,
+            "C": 1,
+            "D": 1,
+            "E": 1
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "投票のballotsがlist契約を満たさなければ採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots"
+          ],
+          "value": {
+            "A": {},
+            "B": {},
+            "C": {},
+            "D": {},
+            "E": {}
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "投票のballotsがlist契約を満たさなければ採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "ballots"
+          ],
+          "value": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ]
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "complete_vote"
+      }
+    },
+    {
+      "name": "既存Issueの不正な型で投票を省略しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "issue_url"
+          ],
+          "value": true
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "起動済み自taskを新規扱いにして引継ぎを迂回しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "稼働taskがなければ承認済み新規作業を委譲できる",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "resumed"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "active_executions"
+          ],
+          "value": []
+        },
+        {
+          "path": [
+            "previous"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "delegate"
       }
     }
   ]

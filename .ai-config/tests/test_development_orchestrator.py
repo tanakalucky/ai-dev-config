@@ -8,6 +8,23 @@ from test_layout import ROOT, copy_distribution, frontmatter, resolved_links
 
 
 class DevelopmentOrchestratorTests(unittest.TestCase):
+    def test_接続契約は本人識別と代理投稿を区別しURLだけで承認にしない(self):
+        # 準備 (Arrange)
+        template = ROOT / ".ai-config/templates/development-loop-integration.md"
+
+        # 実行 (Act)
+        workflow = read_workflow()
+        connection = template.read_text(encoding="utf-8")
+
+        # 検証 (Assert)
+        for phrase in ("URL/IDの存在だけでは", "認証された本人として識別した発言",
+                       "既存の本人の許可範囲", "代理投稿IDの台帳", "引用・コードブロック",
+                       "第三者コメントを本人承認にしない", "依存する外部変更と承認判断を止めて"):
+            self.assertIn(phrase, workflow)
+        for phrase in ("本人と出典の識別", "代理投稿ID台帳", "出典URL/IDだけで本人承認にせず",
+                       "質問/記録・引用・第三者コメントを新たな本人承認にしない"):
+            self.assertIn(phrase, connection)
+
     def test_通常PRを用いオーケストレーターが既存ラウンド管理を一本化する(self):
         # 準備 (Arrange)
         requirements = ("通常PRを既定", "実装側のまとめ役", "進行責任を持つ",
