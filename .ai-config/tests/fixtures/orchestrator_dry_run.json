@@ -127,7 +127,8 @@
       },
       "merge_permission": {
         "current": false
-      }
+      },
+      "change_type": "feature"
     },
     "vote": {
       "operation": "vote",
@@ -495,7 +496,8 @@
       },
       "merge_permission": {
         "current": false
-      }
+      },
+      "change_type": "feature"
     },
     "quality_missing_branch": {
       "operation": "quality",
@@ -569,7 +571,8 @@
       },
       "merge_permission": {
         "current": false
-      }
+      },
+      "change_type": "feature"
     }
   },
   "cases": [
@@ -1172,8 +1175,30 @@
             "existing"
           ],
           "value": [
-            {},
-            {}
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            },
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-2"
+            }
           ]
         }
       ],
@@ -1879,6 +1904,776 @@
       "expected": {
         "status": "blocked",
         "action": "correct_input"
+      }
+    },
+    {
+      "name": "承認版が両方Noneでも実装しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": null
+        },
+        {
+          "path": [
+            "scenario",
+            "approved_version"
+          ],
+          "value": null
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "承認版が両方''でも実装しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": ""
+        },
+        {
+          "path": [
+            "scenario",
+            "approved_version"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "承認版が両方' 'でも実装しない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "scenario",
+            "version"
+          ],
+          "value": " "
+        },
+        {
+          "path": [
+            "scenario",
+            "approved_version"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "再開で別PRへ暗黙に切り替えない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "pr"
+          ],
+          "value": "synthetic:other-pr"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reacquire"
+      }
+    },
+    {
+      "name": "根拠あるbugはstartupで不要な本人承認を待たない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "bug"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:existing-behavior-evidence"
+        },
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenario",
+            "approval_source"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "根拠不足のbugはstartupで質問する",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "bug"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "clarify"
+      }
+    },
+    {
+      "name": "根拠あるbugはqualityで不要な本人承認を待たない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "bug"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:existing-behavior-evidence"
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approval_source"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "report_only"
+      }
+    },
+    {
+      "name": "根拠不足のbugはqualityで質問する",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "bug"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "clarify"
+      }
+    },
+    {
+      "name": "根拠あるrefactorはstartupで不要な本人承認を待たない",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "refactor"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:existing-behavior-evidence"
+        },
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenario",
+            "approval_source"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "continue_task"
+      }
+    },
+    {
+      "name": "根拠不足のrefactorはstartupで質問する",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "refactor"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "clarify"
+      }
+    },
+    {
+      "name": "根拠あるrefactorはqualityで不要な本人承認を待たない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "refactor"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:existing-behavior-evidence"
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approval_source"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "ready",
+        "action": "report_only"
+      }
+    },
+    {
+      "name": "根拠不足のrefactorはqualityで質問する",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "refactor"
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "clarify"
+      }
+    },
+    {
+      "name": "仕様変更を含むrefactorはspecificationに分類して承認を待つ",
+      "input": "startup",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "specification"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:refactor-with-behavior-change"
+        },
+        {
+          "path": [
+            "scenario",
+            "approved"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "仕様変更の品質判定も承認なしでは成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "specification"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:refactor-with-behavior-change"
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approved"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "status": "waiting",
+        "action": "wait_approval"
+      }
+    },
+    {
+      "name": "既存bugもE2Eのシナリオ版対応を維持する",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "bug"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:bug-specification"
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "approved"
+          ],
+          "value": false
+        },
+        {
+          "path": [
+            "e2e",
+            "scenarios"
+          ],
+          "value": {
+            "S1": "v0"
+          }
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_e2e"
+      }
+    },
+    {
+      "name": "動作維持refactorもシナリオ版なしでは品質成功にしない",
+      "input": "quality",
+      "changes": [
+        {
+          "path": [
+            "change_type"
+          ],
+          "value": "refactor"
+        },
+        {
+          "path": [
+            "specification_evidence"
+          ],
+          "value": "synthetic:existing-behavior"
+        },
+        {
+          "path": [
+            "scenarios",
+            0,
+            "version"
+          ],
+          "value": ""
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "verify_e2e"
+      }
+    },
+    {
+      "name": "第二候補は同じ週次Discussionへ追加できる",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "candidate_id"
+          ],
+          "value": "BUG-2"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion",
+        "candidate_action": "append_candidate"
+      }
+    },
+    {
+      "name": "更新版は同じ週次Discussionへ追加できる",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "version"
+          ],
+          "value": "v2"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion",
+        "candidate_action": "append_version"
+      }
+    },
+    {
+      "name": "同一Discussionに複数候補があっても競合扱いしない",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "candidate_id"
+          ],
+          "value": "BUG-3"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            },
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-2",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion",
+        "candidate_action": "append_candidate"
+      }
+    },
+    {
+      "name": "既存候補版の記録は再利用する",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion",
+        "candidate_action": "reuse_candidate"
+      }
+    },
+    {
+      "name": "候補の更新版でも起票済みIssueを再利用する",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "version"
+          ],
+          "value": "v2"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1",
+              "issue_url": "synthetic:existing-candidate-issue"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_issue",
+        "issue_url": "synthetic:existing-candidate-issue"
+      }
+    },
+    {
+      "name": "同じDiscussionの別候補Issueを対象候補へ流用しない",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "candidate_id"
+          ],
+          "value": "BUG-2"
+        },
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1",
+              "issue_url": "synthetic:existing-candidate-issue"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "existing",
+        "action": "reuse_discussion",
+        "candidate_action": "append_candidate"
+      }
+    },
+    {
+      "name": "空白や数値の投票対象版は採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "version"
+          ],
+          "value": " "
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "空白や数値の投票対象版は採用しない",
+      "input": "vote",
+      "changes": [
+        {
+          "path": [
+            "target",
+            "version"
+          ],
+          "value": 1
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "correct_input"
+      }
+    },
+    {
+      "name": "同候補の複数版に別Issueがあれば先頭を選ばず照合",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1",
+              "issue_url": "synthetic:candidate-issue-1"
+            },
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v2",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1",
+              "issue_url": "synthetic:candidate-issue-2"
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reconcile_records"
+      }
+    },
+    {
+      "name": "重複確認Issueと既存候補Issueが異なれば照合",
+      "input": "weekly",
+      "changes": [
+        {
+          "path": [
+            "existing"
+          ],
+          "value": [
+            {
+              "target": {
+                "repository": "example/sample",
+                "week_start": "2026-11-02",
+                "week_end": "2026-11-08",
+                "stream": "bug",
+                "candidate_id": "BUG-1",
+                "version": "v1",
+                "timezone": "Etc/UTC"
+              },
+              "discussion_url": "synthetic:discussion-1",
+              "issue_url": "synthetic:candidate-issue-1"
+            }
+          ]
+        },
+        {
+          "path": [
+            "duplicate_issue_url"
+          ],
+          "value": "synthetic:candidate-issue-2"
+        }
+      ],
+      "expected": {
+        "status": "blocked",
+        "action": "reconcile_records"
       }
     }
   ]

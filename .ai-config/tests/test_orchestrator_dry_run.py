@@ -44,7 +44,7 @@ class OrchestratorDryRunTests(unittest.TestCase):
             'startup': ('repository', 'issue', 'branch', 'head', 'base', 'resumed',
                         'instruction_source', 'send_status', 'active_executions', 'review_round', 'scenario',
                         'pr', 'stage', 'stop_reason', 'questions', 'approval_target', 'records'),
-            'quality': ('repository', 'branch', 'head', 'base', 'ci', 'reviews', 'preview', 'scenarios', 'e2e'),
+            'quality': ('repository', 'branch', 'head', 'base', 'ci', 'reviews', 'preview', 'scenarios', 'e2e', 'change_type'),
             'vote': ('target', 'voters', 'ballots'),
             'weekly': ('target', 'send_status', 'existing'),
             'effect': ('issue_url', 'before', 'current_criteria', 'target', 'implementation', 'after', 'comparable'),

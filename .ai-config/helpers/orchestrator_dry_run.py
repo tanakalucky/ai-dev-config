@@ -57,24 +57,16 @@ def startup(evidence: dict) -> dict:
         if not valid_resume_record(previous) or not valid_resume_record(evidence):
             return result("blocked", "reacquire", "incomplete_resume_record")
         if any(previous[field] != evidence.get(field)
-               for field in ("repository", "issue", "execution_url", "branch", "base")):
+               for field in ("repository", "issue", "execution_url", "branch", "pr", "base")):
             return result("blocked", "reacquire", "resume_identity_mismatch")
         if not valid_round(evidence["review_round"]) or evidence["review_round"] != previous["review_round"]:
             return result("blocked", "reacquire", "review_round_changed")
         if evidence["head"] != previous["head"]:
             return result("blocked", "reverify_head", "stale_head")
 
-    scenario = evidence["scenario"]
-    if evidence["change_type"] in ("feature", "specification"):
-        if not (scenario["approved"] is True and nonempty(scenario.get("approval_source"))
-                and scenario["version"] == scenario["approved_version"]
-                and nonempty(scenario.get("id"))):
-            return result("waiting", "wait_approval", "scenario_unapproved")
-    elif evidence["change_type"] == "bug":
-        if not evidence.get("specification_evidence"):
-            return result("waiting", "clarify", "ambiguous_bug_specification")
-    else:
-        return result("blocked", "correct_input", "invalid_change_type")
+    approval = change_approval(evidence, [evidence.get("scenario")])
+    if approval:
+        return approval
     return result("ready", "continue_task" if active or evidence["resumed"] else "delegate", "startup_checked")
 
 
@@ -106,12 +98,14 @@ def quality(evidence: dict) -> dict:
             or not nonempty(preview.get("url")) or not nonempty(preview.get("deployment_url"))):
         return result("blocked", "await_preview", "preview_incomplete_or_wrong_head")
     scenarios = evidence["scenarios"]
-    if (not scenarios or len({scenario["id"] for scenario in scenarios}) != len(scenarios)
-            or any(not nonempty(scenario.get("id")) or scenario.get("approved") is not True
-                   or not nonempty(scenario.get("version")) or scenario["version"] != scenario.get("approved_version")
-                   or not nonempty(scenario.get("approval_source"))
-                   for scenario in scenarios)):
-        return result("waiting", "wait_approval", "scenario_unapproved")
+    approval = change_approval(evidence, scenarios)
+    if approval:
+        return approval
+    if (not isinstance(scenarios, list) or not scenarios
+            or any(not isinstance(scenario, dict) or not nonempty(scenario.get("id"))
+                   or not nonempty(scenario.get("version")) for scenario in scenarios)
+            or len({scenario["id"] for scenario in scenarios}) != len(scenarios)):
+        return result("blocked", "verify_e2e", "invalid_scenario_mapping")
     e2e = evidence["e2e"]
     if e2e.get("status") == "not_run":
         return result("waiting", "request_approved_e2e", "e2e_not_run")
@@ -133,7 +127,7 @@ def vote(evidence: dict) -> dict:
     if evidence.get("issue_url"):
         return result("existing", "reuse_issue", "already_issued")
     target = evidence["target"]
-    if not valid_target(target) or not target.get("version"):
+    if not valid_target(target) or not nonempty(target.get("version")):
         return result("blocked", "correct_input", "invalid_vote_target")
     voters, ballots = evidence["voters"], evidence["ballots"]
     if (len(voters) != 5 or len(set(voters)) != 5 or any(not nonempty(voter) for voter in voters)
@@ -151,25 +145,44 @@ def vote(evidence: dict) -> dict:
 
 
 def weekly(evidence: dict) -> dict:
-    """週/repo/系統/候補単位で既存記録を選ぶ。書込やスケジュールは行わない。"""
+    """同repo/週/系統のDiscussionを再利用し、候補ID/版は個別に引き継ぐ。"""
     target = evidence["target"]
-    if not valid_target(target):
+    if not valid_target(target) or not nonempty(target.get("version")):
         return result("blocked", "correct_input", "invalid_weekly_target")
     if evidence.get("send_status") == "unknown":
         return result("blocked", "reacquire", "unknown_send")
     if evidence.get("send_status") not in ("not_sent", "confirmed"):
         return result("blocked", "correct_input", "invalid_send_status")
     existing = evidence["existing"]
-    if len(existing) > 1:
-        return result("blocked", "reconcile_records", "duplicate_records")
+    if not isinstance(existing, list):
+        return result("blocked", "reacquire", "invalid_weekly_records")
+    scope = ("repository", "week_start", "week_end", "timezone", "stream")
+    if any(not valid_target(record["target"]) or not nonempty(record["target"].get("version"))
+           or any(record["target"][field] != target[field] for field in scope)
+           or not nonempty(record.get("discussion_url")) for record in existing):
+        return result("blocked", "reacquire", "weekly_identity_mismatch")
+    discussion_urls = {record["discussion_url"] for record in existing}
+    if len(discussion_urls) > 1:
+        return result("blocked", "reconcile_records", "duplicate_discussions")
+
+    candidate_records = [record for record in existing
+                         if record["target"]["candidate_id"] == target["candidate_id"]]
+    issue_urls = {record["issue_url"] for record in candidate_records if nonempty(record.get("issue_url"))}
+    if nonempty(evidence.get("duplicate_issue_url")):
+        issue_urls.add(evidence["duplicate_issue_url"])
+    if len(issue_urls) > 1:
+        return result("blocked", "reconcile_records", "conflicting_candidate_issues")
+    if issue_urls:
+        issue_url = next(iter(issue_urls))
+        decision = result("existing", "reuse_issue", "same_candidate_issue_exists")
+        decision["issue_url"] = issue_url
+        return decision
     if existing:
-        record = existing[0]
-        if record.get("target") != target or not nonempty(record.get("discussion_url")):
-            return result("blocked", "reacquire", "weekly_identity_mismatch")
-        return result("existing", "reuse_issue" if record.get("issue_url") else "reuse_discussion",
-                      "existing_weekly_record")
-    if evidence.get("duplicate_issue_url"):
-        return result("existing", "reuse_issue", "same_candidate_issue_exists")
+        same_version = any(record["target"]["version"] == target["version"] for record in candidate_records)
+        decision = result("existing", "reuse_discussion", "existing_weekly_discussion")
+        decision.update(discussion_url=existing[0]["discussion_url"], candidate_action=(
+            "reuse_candidate" if same_version else "append_version" if candidate_records else "append_candidate"))
+        return decision
     return result("ready", "prepare_discussion", "no_existing_record_supplied")
 
 
@@ -220,6 +233,24 @@ def effect(evidence: dict) -> dict:
                "worsened" if improvement <= -criteria["worsening_delta"] else "held")
     return result(outcome, "append_same_issue_and_recheck" if outcome == "held" else "append_same_issue",
                   "compared_with_frozen_criteria")
+
+
+def change_approval(evidence: dict, scenarios):
+    """本人承認の要否を起動と品質判定で共有する。動作変更はspecificationへ分類する。"""
+    change_type = evidence["change_type"]
+    if change_type in ("bug", "refactor"):
+        if not nonempty(evidence.get("specification_evidence")):
+            return result("waiting", "clarify", "ambiguous_existing_behavior")
+        return None
+    if change_type not in ("feature", "specification"):
+        return result("blocked", "correct_input", "invalid_change_type")
+    if (not isinstance(scenarios, list) or not scenarios
+            or any(not isinstance(scenario, dict) or scenario.get("approved") is not True
+                   or any(not nonempty(scenario.get(field))
+                          for field in ("id", "version", "approved_version", "approval_source"))
+                   or scenario["version"] != scenario["approved_version"] for scenario in scenarios)):
+        return result("waiting", "wait_approval", "scenario_unapproved")
+    return None
 
 
 def valid_resume_record(record) -> bool:

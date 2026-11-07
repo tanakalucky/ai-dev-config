@@ -69,3 +69,6 @@ python3 .ai-config/helpers/orchestrator_dry_run.py --fixtures .ai-config/tests/f
 
 `startup`（重複・unknown・承認・再開）、`quality`（同headの品質証拠）、`vote`（独立5人3賛成）、
 `weekly`（候補と既存記録）、`effect`（事前基準と比較不足）を分ける。厳密な入力は helper と fixture の契約に従う。
+`startup`/`quality` は変更種別を受け取り、新機能・仕様変更には対象版への本人承認、既存バグ・動作維持リファクタには
+既存仕様/動作維持の根拠を要求する。後者にも検証シナリオ ID/版と E2E の対応を残す。
+週次の Discussion は repo・週範囲・timezone・系統で照合し、その中の候補 ID/版と起票先は別に引き継ぐ。
