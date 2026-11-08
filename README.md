@@ -17,11 +17,9 @@
 ```sh
 # コピー後のルートで確認
 readlink CLAUDE.md
-python3 -m unittest discover -s .ai-config/tests -v
 ```
 
-`readlink`の期待値は`AGENTS.md`。テストはPython 3.9以上の標準ライブラリで、
-配布物のリンクとMarkdown参照を確認する。CLIや実環境の動作検証とは区別する。
+`readlink`の期待値は`AGENTS.md`。
 配置後は新しいセッションで規約と入口の認識を確認する。
 
 ## 呼び出し方
@@ -50,8 +48,6 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 [Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）は日次のIssue確認・整理、Issue担当と週次担当への依頼、本人への質問・結果の受け渡しを行う。依頼後はrepo最上位の指揮者が進行・品質・停止再開を管理し、現在有効な対象限定許可と品質・安全・権限条件がすべて成立した場合だけmergeを判断・実行する。新機能/仕様変更は本人のシナリオ承認後に実装する。文書自体は外部操作を許可しない。
 
 [週次課題発見](.ai-config/workflows/weekly-discovery.md)は独立2系統の調査と候補採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・効果確認を扱う。採用は独立5人中3賛成。外部スケジュール・自動投稿・merge/deployは別途許可が必要。
-
-標準テストはコピー先のファイル・リンク・入口設定・記録の構造を確認する。手順の実行や実モデル・外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、配布物には含めない。
 
 ## Preview E2E の実行例
 
