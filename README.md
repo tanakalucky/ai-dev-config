@@ -47,7 +47,7 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 
 ## Issue ごとの開発進行
 
-[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）が日次のIssue確認・整理とIssue担当への依頼、週次担当への依頼を行う。依頼後はrepo側が調査・本人確認・実装委譲・PR・品質確認・停止再開を管理する。新機能/仕様変更は本人のシナリオ承認後に実装する。外部操作の許可はタスクごとに確認する。
+[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）は日次のIssue確認・整理、Issue担当と週次担当への依頼、本人への質問・結果の受け渡しを行う。依頼後はrepo最上位の指揮者が進行・品質・停止再開を管理し、現在有効な対象限定許可と品質・安全・権限条件がすべて成立した場合だけmergeを判断・実行する。新機能/仕様変更は本人のシナリオ承認後に実装する。文書自体は外部操作を許可しない。
 
 [週次課題発見](.ai-config/workflows/weekly-discovery.md)は独立2系統の調査と候補採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・効果確認を扱う。採用は独立5人中3賛成。外部スケジュール・自動投稿・merge/deployは別途許可が必要。
 
