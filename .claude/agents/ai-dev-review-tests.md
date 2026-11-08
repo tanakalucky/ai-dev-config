@@ -1,6 +1,6 @@
 ---
 name: ai-dev-review-tests
-description: テストを独立にレビューして報告する
+description: テストの妥当性・不足・不要や過剰を独立にレビューして報告する
 model: inherit
 tools: Read, Glob, Grep
 ---

@@ -1,6 +1,6 @@
 ---
 name: review-tests
-description: タスク変更全体のテストの妥当性と不足をレビューする。報告のみ。
+description: タスク変更全体のテストの妥当性・不足・不要や過剰をレビューする。報告のみ。
 context: fork
 agent: ai-dev-review-tests
 model: inherit
