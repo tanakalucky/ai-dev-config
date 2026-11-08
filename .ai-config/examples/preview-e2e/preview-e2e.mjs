@@ -1,8 +1,7 @@
 import { resolvePreview } from './preview-e2e-adapter.mjs';
 
 // Called only from trusted default-branch code. No PR code or dependencies here.
-export async function verify({ github, context, resolve = resolvePreview }) {
-  const inputs = context.payload.inputs;
+export async function verify({ github, context, inputs = context.payload.inputs, resolve = resolvePreview }) {
   validateInputs(inputs);
   const { owner, repo } = context.repo;
   const repository = (await github.rest.repos.get({ owner, repo })).data;
@@ -43,8 +42,7 @@ export async function verify({ github, context, resolve = resolvePreview }) {
 // Use from a trusted Actions job after preview deploy completion has been verified.
 // github is an Octokit client configured with automatic POST retries disabled.
 export async function dispatch({ github, context, inputs, resolve = resolvePreview }) {
-  const receiverContext = { ...context, payload: { ...context.payload, inputs } };
-  await verify({ github, context: receiverContext, resolve });
+  await verify({ github, context, inputs, resolve });
   const { owner, repo } = context.repo;
   const workflow_id = 'preview-e2e.yml';
   const title = `Preview E2E / source ${inputs.source_run_id} attempt ${inputs.source_run_attempt}`;

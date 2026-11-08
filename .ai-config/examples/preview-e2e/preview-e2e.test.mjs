@@ -99,6 +99,17 @@ test('検証後に全ページ検索し固定workflowへ1回だけdispatchする
   assert.deepEqual(args.calls, ['repository', 'run', 'pull', 'provider', 'paginate', 'dispatch']);
 });
 
+test('GitHub Contextのprototype getterを失わずdispatchする', async () => {
+  const args = fixture();
+  const repository = args.context.repo;
+  delete args.context.repo;
+  Object.setPrototypeOf(args.context, { get repo() { return repository; } });
+
+  await dispatch({ ...args, inputs: args.context.payload.inputs });
+
+  assert.equal(args.dispatched.length, 1);
+});
+
 test('既存runが見つかった場合はPOSTしない', async () => {
   const args = fixture();
   args.runs.push({ display_title: 'Preview E2E / source 12 attempt 1' });
