@@ -1,9 +1,9 @@
 ---
-name: config-review-design
+name: review-design
 description: タスク変更全体の設計と可読性をレビューする。報告のみ。
 ---
 
-# config-review-design
+# review-design
 
 リンクはこのSKILL.mdからの相対参照。指定文書を全文読んでから実行し、読めなければ不足を報告する。
 

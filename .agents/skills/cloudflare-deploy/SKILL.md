@@ -1,9 +1,9 @@
 ---
-name: config-cloudflare-deploy
+name: cloudflare-deploy
 description: アプリに合うCloudflareデプロイ設定を導入・変更し、PR previewの作成・更新・cleanup、URLコメント、mainの本番反映を検証する。CloudflareのCI/CDやPRプレビュー運用を依頼されたときに使う。
 ---
 
-# config-cloudflare-deploy
+# cloudflare-deploy
 
 リンクはこのSKILL.mdからの相対参照。指定文書を全文読んでから実行し、読めなければ不足を報告する。
 

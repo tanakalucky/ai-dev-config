@@ -11,7 +11,7 @@ from test_layout import ROOT, copy_distribution, resolved_links
 class ReviewRecordTests(unittest.TestCase):
     def test_コピー後も実装担当と両レビュー入口が同じ記録手順へ到達する(self):
         # 準備 (Arrange)
-        callers = ("AGENTS.md", "CLAUDE.md", ".agents/skills/config-review/SKILL.md",
+        callers = ("AGENTS.md", "CLAUDE.md", ".agents/skills/ai-dev-config-review/SKILL.md",
                    ".claude/skills/ai-dev-config-review/SKILL.md",
                    ".ai-config/review/rounds.md", ".ai-config/review/workflow.md")
         with tempfile.TemporaryDirectory() as directory:

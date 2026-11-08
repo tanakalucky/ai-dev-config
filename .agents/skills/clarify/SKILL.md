@@ -1,9 +1,9 @@
 ---
-name: config-clarify
+name: clarify
 description: 実装前に完了条件・スコープ・最小案・未確定点を短く揃える
 ---
 
-# config-clarify
+# clarify
 
 リンクはこのSKILL.mdからの相対参照。指定文書を全文読んでから実行し、読めなければ不足を報告する。
 

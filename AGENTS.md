@@ -21,8 +21,8 @@ Codexのレビュー担当（親・子）は、規約・skillを読む最初の�
 PR作成前にも同じ記載方針を全文読んで適用する。
 Markdownリンクの自動展開を前提にせず、明示的に読む。見つからなければ不足を報告する。
 
-実装前の認識合わせにはClaude Codeの`/clarify`、Codexの`$config-clarify`を使う。
-レビューを依頼された場合はClaude Codeの`/ai-dev-config-review`、Codexの`$config-review`を使う。
+実装前の認識合わせにはClaude Codeの`/clarify`、Codexの`$clarify`を使う。
+レビューを依頼された場合はClaude Codeの`/ai-dev-config-review`、Codexの`$ai-dev-config-review`を使う。
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
 1つのIssueは両ツールの`development-orchestrator`から[共通手順](.ai-config/workflows/development-orchestrator.md)を全文読む。
@@ -33,10 +33,10 @@ Coordinator（コーディネーター）はAIでも人間でも担える役割�
 外部実行や既存設定の変更は、対象と本人の許可を確認する。この記載だけで外部設定・スケジュールを有効化しない。
 
 フロントエンドの新規作成・変更では[FSDルール](.ai-config/rules/fsd.md)を全文読む。
-Claude Codeの`/fsd`、Codexの`$config-fsd`から導入・変更の共通手順を使う。
+Claude Codeの`/fsd`、Codexの`$fsd`から導入・変更の共通手順を使う。
 
 Cloudflareの導入・変更では[デプロイ運用ルール](.ai-config/rules/cloudflare-deploy.md)を全文読む。
-Claude Codeの`/cloudflare-deploy`、Codexの`$config-cloudflare-deploy`から共通手順を使う。
+Claude Codeの`/cloudflare-deploy`、Codexの`$cloudflare-deploy`から共通手順を使う。
 
 レビューと修正は[ラウンドの共通定義](.ai-config/review/rounds.md)を読んで進める。
 実装後のPR作成とレビュー記録は[PRへの記録手順](.ai-config/review/records.md)を全文読んで適用する。

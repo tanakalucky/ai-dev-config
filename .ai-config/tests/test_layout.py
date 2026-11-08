@@ -143,7 +143,7 @@ class LayoutTests(unittest.TestCase):
         """実装担当と両レビュー入口がコピー先の同一ラウンド定義へ到達する。"""
         # 準備 (Arrange)
         callers = ("AGENTS.md", ".ai-config/review/policy.md", ".ai-config/review/workflow.md",
-                   ".agents/skills/config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
+                   ".agents/skills/ai-dev-config-review/SKILL.md", ".claude/skills/ai-dev-config-review/SKILL.md")
         with tempfile.TemporaryDirectory() as directory:
             copied = (Path(directory) / "application").resolve()
             copied.mkdir()
@@ -160,20 +160,23 @@ class LayoutTests(unittest.TestCase):
                 with self.subTest(caller=name):
                     self.assertEqual(links, {expected})
 
-    def test_copied_review_commands_use_distinct_names(self):
-        """コピーしたレビュー入口のmetadata名が衝突しない。"""
+    def test_コピー後も両ツールのスキル名が一致し旧Codex入口が残らない(self):
         # 準備 (Arrange)
+        expected = {"clarify", "fsd", "cloudflare-deploy", "ai-dev-config-review",
+                    "review-correctness", "review-tests", "review-design"}
         with tempfile.TemporaryDirectory() as directory:
             copied = Path(directory).resolve()
             copy_distribution(copied)
 
             # 実行 (Act)
-            claude = copied / ".claude/skills/ai-dev-config-review/SKILL.md"
-            codex = copied / ".agents/skills/config-review/SKILL.md"
-            commands = [frontmatter(path)["name"] for path in (claude, codex)]
-            # 検証 (Assert)
-            self.assertEqual(commands, ["ai-dev-config-review", "config-review"])
+            commands = [{frontmatter(copied / host / "skills" / name / "SKILL.md")["name"]
+                         for name in expected} for host in (".claude", ".agents")]
+            legacy = [copied / ".agents/skills" / f"config-{name}" for name in NAMES]
 
+            # 検証 (Assert)
+            self.assertEqual(commands, [expected, expected])
+            for path in legacy:
+                self.assertFalse(path.exists(), path)
 
     def test_both_hosts_reach_one_documentation_policy_after_copy(self):
         """コピー後も両hostから同じREADME記載方針へ到達する。"""
@@ -228,10 +231,7 @@ def distribution_markdown(root: Path) -> list:
 
 
 def skill_path(root: Path, host: str, name: str) -> Path:
-    if host == ".agents" and name not in SHARED_NAMES:
-        entry = f"config-{name}"
-    else:
-        entry = "ai-dev-config-review" if name == "review" else name
+    entry = "ai-dev-config-review" if name == "review" else name
     return root / host / "skills" / entry / "SKILL.md"
 
 
