@@ -2,7 +2,8 @@
 name: review-design
 description: タスク変更全体の設計と可読性をレビューする。報告のみ。
 context: fork
-model: sonnet
+agent: ai-dev-review-design
+model: inherit
 background: false
 disallowed-tools: Write, Edit
 ---

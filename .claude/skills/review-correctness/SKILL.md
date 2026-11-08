@@ -2,7 +2,8 @@
 name: review-correctness
 description: タスク変更全体の正確性と安全性をレビューする。報告のみ。
 context: fork
-model: sonnet
+agent: ai-dev-review-correctness
+model: inherit
 background: false
 disallowed-tools: Write, Edit
 ---

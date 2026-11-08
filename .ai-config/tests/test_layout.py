@@ -8,7 +8,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude")
+DISTRIBUTION = ("AGENTS.md", "CLAUDE.md", ".ai-config", ".agents", ".claude", ".codex/agents")
 REVIEW_NAMES = ("review", "review-correctness", "review-tests", "review-design")
 SHARED_NAMES = ("development-orchestrator", "weekly-discovery", "development-improvement")
 NAMES = ("clarify", *REVIEW_NAMES, "cloudflare-deploy", "fsd", *SHARED_NAMES)
@@ -89,7 +89,7 @@ class LayoutTests(unittest.TestCase):
             self.assertNotIn("allowed-tools", metadata)
             if name != "review":
                 self.assertEqual(metadata["context"], "fork")
-                self.assertEqual(metadata["model"], "sonnet")
+                self.assertEqual(metadata["model"], "inherit")
                 self.assertEqual(metadata["background"], "false")
 
     def test_codex_does_not_inherit_claude_frontmatter(self):
@@ -225,6 +225,7 @@ def copy_distribution(destination: Path) -> None:
 def distribution_markdown(root: Path) -> list:
     paths = [root / "AGENTS.md", root / "CLAUDE.md", root / ".agents/review-runtime.md"]
     paths.extend((root / ".ai-config").rglob("*.md"))
+    paths.extend((root / ".claude/agents").glob("*.md"))
     paths.extend(skill_path(root, host, name)
                  for host in (".claude", ".agents") for name in NAMES)
     return paths

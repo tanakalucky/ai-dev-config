@@ -26,8 +26,9 @@ Markdownリンクの自動展開を前提にせず、明示的に読む。見つ
 いずれも各ツールの入口から`.ai-config/`の共通手順を読む。
 
 1つのIssueは両ツールの`development-orchestrator`から[共通手順](.ai-config/workflows/development-orchestrator.md)を全文読む。
-Coordinator（コーディネーター）はAIでも人間でも担える役割で、Issue の選択・起動・追跡・再開を担当する。
-オーケストレーターは受け取った Issue の進行を担当する。
+Coordinator（コーディネーター）はAIでも人間でも担える人間の代役で、日次のIssue確認・整理とIssue担当への依頼、週次repo担当への依頼を担う。
+依頼受理後の進行・品質・停止再開・重複防止はrepo側で完結させる。
+[役割と受け渡し](.ai-config/workflows/agent-handoff.md)を全文読み、最上位セッションから専門agentへ委譲する。
 週次候補は同名の`weekly-discovery`から[課題発見手順](.ai-config/workflows/weekly-discovery.md)、
 運用改善は同名の`development-improvement`から[振返り・効果確認](.ai-config/workflows/development-improvement.md)を全文読む。
 外部実行や既存設定の変更は、対象と本人の許可を確認する。この記載だけで外部設定・スケジュールを有効化しない。

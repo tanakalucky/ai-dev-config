@@ -6,7 +6,8 @@
 
 ## アプリへの配置
 
-`AGENTS.md`、`CLAUDE.md`、`.ai-config/`、`.agents/`、`.claude/`の5つをコピーする。
+`AGENTS.md`、`CLAUDE.md`、`.ai-config/`、`.agents/`、`.claude/`、`.codex/agents/`をコピーする。
+従来の5配布物にproject-scoped Codex agent定義だけを加える。`.codex/`全体や個人のconfigはコピーしない。
 既存の同名設定や旧配置の入口があれば、上書きせず差分と重複を確認して統合する。
 `.git/`、このREADME、[過去の検証記録](docs/validation/README.md)は配布に不要。
 
@@ -46,11 +47,11 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 
 ## Issue ごとの開発進行
 
-[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）が選択・起動・追跡・再開を担当し、オーケストレーターが調査・本人確認・実装委譲・PR・品質確認を進める。新機能/仕様変更は本人のシナリオ承認後に実装する。外部操作の許可はタスクごとに確認する。
+[Issue ごとの共通手順](.ai-config/workflows/development-orchestrator.md)を正本とする。Coordinator（AIまたは人間）が日次のIssue確認・整理とIssue担当への依頼、週次担当への依頼を行う。依頼後はrepo側が調査・本人確認・実装委譲・PR・品質確認・停止再開を管理する。新機能/仕様変更は本人のシナリオ承認後に実装する。外部操作の許可はタスクごとに確認する。
 
 [週次課題発見](.ai-config/workflows/weekly-discovery.md)は独立2系統の調査と候補採用、[振返りと改善](.ai-config/workflows/development-improvement.md)は資料別分析・改善投票・効果確認を扱う。採用は独立5人中3賛成。外部スケジュール・自動投稿・merge/deployは別途許可が必要。
 
-標準テストはコピー先のファイル・リンク・入口設定・記録の構造を確認する。手順の実行や実モデル・外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、5つの配布物には含めない。
+標準テストはコピー先のファイル・リンク・入口設定・記録の構造を確認する。手順の実行や実モデル・外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、配布物には含めない。
 
 ## 初期設定
 
@@ -58,6 +59,10 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 - Cloudflare: 対象account/Worker、Secrets名と登録先、最小権限、previewと本番の資源を確認する。アプリ構成と公式CLIに合う方式を選び、既存Worker配下のWorker Previewから異なる方式へ変える場合は利用者に確認する。設定・Actions・処理・E2Eは各アプリに置く。
 - レビュー: Codexのモデル・推論量はユーザー指定、未指定ならセッション設定を継承する。[Codexの実行条件](.agents/review-runtime.md)と[Claudeの入口](.claude/skills/ai-dev-config-review/SKILL.md)に従う。運用指示や編集ツールの制限は、完全な書込拒否を保証しない。
 - 承認: ユーザー領域へのインストールや既存のsandbox・認証・承認設定の変更は自動で行わない。実デプロイ・削除・credential登録・PRコメント投稿は各タスクの承認範囲で行う。
+
+.codex/agents/のTOMLと.claude/agents/のMarkdownは専門役の定義。最上位セッションで既存skillを実行し、専門役を直接呼ぶ。
+[役割・受け渡し・起動方法](.ai-config/workflows/agent-handoff.md)を全文読む。週次採用候補はIssueへ保存し、Coordinatorが日次で依頼する。
+ローカル定義の配布はブラウザ/cloudでの自動検出や実効権限の保証ではない。
 
 設定を調整するときは共通本文を`.ai-config/`、ツール固有の呼出・モデル設定を各入口で変更する。
 入口の仕様は[Codex skills](https://developers.openai.com/codex/build-skills)と[Claude skills](https://code.claude.com/docs/en/skills)を参照。

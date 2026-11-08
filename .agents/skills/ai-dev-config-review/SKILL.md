@@ -19,3 +19,5 @@ description: タスク変更全体を独立3観点で1ラウンドレビュー�
 - [review-correctness](../review-correctness/SKILL.md)
 - [review-tests](../review-tests/SKILL.md)
 - [review-design](../review-design/SKILL.md)
+
+[専門agentの選択と差分受渡し](../../../.ai-config/workflows/agent-handoff.md)を全文読み、同一対象で3観点を直接呼ぶ。

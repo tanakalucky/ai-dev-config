@@ -2,7 +2,8 @@
 name: review-tests
 description: タスク変更全体のテストの妥当性と不足をレビューする。報告のみ。
 context: fork
-model: sonnet
+agent: ai-dev-review-tests
+model: inherit
 background: false
 disallowed-tools: Write, Edit
 ---

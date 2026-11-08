@@ -1,6 +1,8 @@
 # 開発ループの振返りと改善
 
 [Issue ごとの開発](development-orchestrator.md)と[週次課題発見](weekly-discovery.md)の記録から改善候補を作る。
+repo側の最上位セッションが[役割と受け渡し](agent-handoff.md)を全文読み、専門分析・投票担当を直接呼ぶ。
+採用改善は必ずIssueへ保存し、Coordinatorが日次でIssue担当へ依頼する。週次担当は実装を直接起動しない。
 この手順は自動適用や外部スケジュールを許可しない。対象 repo の規約・共有範囲・操作権限を確認する。
 
 ## 1. 3種類の記録を別に分析する
@@ -31,7 +33,8 @@ private repo の根拠や個人情報を公開共通ルール/Discussionへ転�
 
 ## 3. 実施前に効果の測り方を決める
 
-採用改善を Issue に起票/対応付けし、実装前に問題と狙いに合う before/after 指標を定義する。
+週次repo担当が採用改善をIssueへ起票/対応付けして保存を確認する。Discussionだけで引渡し完了にしない。
+Issue担当への依頼前に問題と狙いに合うbefore/after指標を定義し、不足なら同Issueに保留と次回確認を残す。
 一律の数値目標を発明せず、既存データと対象問題に照らし、本人の価値判断が必要なら具体的に確認する。
 新機能/仕様変更のシナリオ承認は開発手順に従う。
 
@@ -52,7 +55,8 @@ before期間 / after期間 / timezone / 比較条件
 
 ## 4. 実施と after 確認
 
-実装は[Issue ごとの開発手順](development-orchestrator.md)へ委譲し、既存の承認・レビュー・品質条件を通す。
+Coordinatorの日次依頼を受理したIssueオーケストレーターが[Issue ごとの開発手順](development-orchestrator.md)で進行し、既存の承認・レビュー・品質条件を通す。
+実装進行と再開はIssue側、実施後の効果比較と同Issueへの追記は週次repo担当が担い、Coordinatorに集計を戻さない。
 改善の採用と実装完了、merge/deploy、効果の確認は別状態として記録する。
 対象 commit・実施日時・適用先の実結果を確認してから、事前定義に従って after データを取得する。
 未実施の改善に after の成果を付けず、別 repo/別版の結果を代用しない。
