@@ -14,7 +14,7 @@
    サンプルの lockfile で既存アプリの lockfile を置き換えない。
 3. CI が必要な場合だけ、`bun-tooling.yml` を `.github/workflows/bun-tooling.yml` にコピーする。
    既存 workflow と統合し、`main` を実際の default branch に合わせる。導入先の Actions 利用条件を確認する。
-   この README と検証用 `bun-tooling.test.mjs` はアプリへの配置には不要。
+   この README はアプリへの配置には不要。
 
 [Preview E2E サンプル](../preview-e2e/README.md)も導入する場合、その npm の例はアプリ側で
 `package-lock.json` → `bun.lock`、`npm ci` → `bun install --frozen-lockfile`、`npm run` → `bun run` に対応させる。
@@ -45,18 +45,6 @@ CI は GitHub-hosted runner で read-only の token を使い、checkout の認�
 Secrets・Environment・書込権限・共有 cache は使わない。PR のコードを実行するため、
 `pull_request_target` や永続 self-hosted runner へ置き換えたり、Secrets を渡したりしない。
 install・整形・lint の失敗を無視する設定は入れない。merge・deploy は実行しない。
-
-## サンプルの検証
-
-Bun 1.4.4 と Node.js 22 以上が使える環境で、config repo のルートから実行する。
-一時ディレクトリへサンプルをコピーし、registry から依存を取得するためネットワークが必要。
-
-```sh
-node --test .ai-config/examples/bun-tooling/bun-tooling.test.mjs
-```
-
-コピー先で frozen install、正常コード、未整形の検出と修正、lint 違反、lockfile 不整合を実コマンドで確認する。
-この検証はアプリのテストやリモート CI の代わりにはならない。
 
 仕様参照: [bun fmt](https://bun.com/docs/format)、[Bun 1.4.4](https://bun.com/blog/bun-v1.4.4)、
 [Oxlint](https://oxc.rs/docs/guide/usage/linter.html)、[setup-bun](https://github.com/oven-sh/setup-bun)。
