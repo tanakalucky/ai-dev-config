@@ -53,6 +53,11 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 
 標準テストはコピー先のファイル・リンク・入口設定・記録の構造を確認する。手順の実行や実モデル・外部CI/E2Eの成功を保証しない。このrepoのCIは標準テストのみで、配布物には含めない。
 
+## Preview E2E の実行例
+
+[Preview E2E Actions サンプル](.ai-config/examples/preview-e2e/README.md)に、Preview 完了後の GitHub API 起動と実行workflowを置く。
+アプリ固有の検証adapter・E2Eコマンド・必要な許可を揃えて導入する。配布コピーだけでは有効にならない。
+
 ## 初期設定
 
 - FSD: 「この画面をFSDで追加して」「既存アプリへの配置案を示して」のように依頼する。[共通ルール](.ai-config/rules/fsd.md)と[導入手順](.ai-config/workflows/fsd.md)を使い、ソースルート・エイリアス・共有パッケージ・ルーターとの対応は各アプリに記録する。必要なレイヤーだけを使い、一括移行・設定生成・依存チェックCIの追加は行わない。
