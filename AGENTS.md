@@ -34,6 +34,9 @@ Coordinator（コーディネーター）はAIでも人間でも担える人間�
 運用改善は同名の`development-improvement`から[振返り・効果確認](.ai-config/workflows/development-improvement.md)を全文読む。
 外部実行や既存設定の変更は、対象と本人の許可を確認する。この記載だけで外部設定・スケジュールを有効化しない。
 
+新規 JavaScript / TypeScript プロジェクトでは[Bun ツール構成ルール](.ai-config/rules/bun-tooling.md)を全文読み、
+[導入サンプル](.ai-config/examples/bun-tooling/README.md)を使う。既存プロジェクトへ自動適用しない。
+
 フロントエンドの新規作成・変更では[FSDルール](.ai-config/rules/fsd.md)を全文読む。
 Claude Codeの`/fsd`、Codexの`$fsd`から導入・変更の共通手順を使う。
 

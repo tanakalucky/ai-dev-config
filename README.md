@@ -54,6 +54,12 @@ Codexの旧`.agents/skills/config-*`も、この設定由来と確認した入�
 [Preview E2E Actions サンプル](.ai-config/examples/preview-e2e/README.md)に、Preview 完了後の GitHub API 起動と実行workflowを置く。
 アプリ固有の検証adapter・E2Eコマンド・必要な許可を揃えて導入する。配布コピーだけでは有効にならない。
 
+## 新規 JS / TS のツール構成例
+
+新規 JavaScript / TypeScript プロジェクトでは Bun（パッケージ管理）・`bun fmt`（整形）・Oxlint（lint）を使う。
+[共通ルール](.ai-config/rules/bun-tooling.md)と[設定・CI サンプル](.ai-config/examples/bun-tooling/README.md)を参照。
+配布コピーだけでは有効にならず、既存プロジェクトの移行やこの config repo の CI 追加は行わない。
+
 ## 初期設定
 
 - FSD: 「この画面をFSDで追加して」「既存アプリへの配置案を示して」のように依頼する。[共通ルール](.ai-config/rules/fsd.md)と[導入手順](.ai-config/workflows/fsd.md)を使い、ソースルート・エイリアス・共有パッケージ・ルーターとの対応は各アプリに記録する。必要なレイヤーだけを使い、一括移行・設定生成・依存チェックCIの追加は行わない。
