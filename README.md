@@ -22,6 +22,22 @@ readlink CLAUDE.md
 `readlink`の期待値は`AGENTS.md`。
 配置後は新しいセッションで規約と入口の認識を確認する。
 
+## 日本語とコミットの既定
+
+説明・回答・ドキュメント・コミットメッセージの説明文は日本語を既定とする。ユーザーが別の言語を明示した場合はその指定に従い、技術識別子・コマンド・設定キー・原文引用は保つ。
+
+- Claude Code: 配布する`.claude/settings.json`の`"language": "japanese"`で応答言語を指定する。共通指示は既存の`CLAUDE.md` symlinkから読む。この設定は音声入力の認識言語とセッション名にも影響する。
+- Codex: `AGENTS.md`の指示で指定する。Codexの設定ファイルへ独自の`language`キーは追加しない。
+- コミット: 両ツールで[コミット規約](.ai-config/rules/commits.md)を使う。Conventional Commits形式で、typeや`BREAKING CHANGE`は英語、説明文は日本語を既定とする。
+
+既存の`.claude/settings.json`へ導入する場合もファイル全体を置換せず、既存キーを保って`language`を手動で統合する。
+異なる言語指定があれば、上位の指示、個人・管理設定、作業ディレクトリに応じて読み込まれる指示や設定を確認する。個人設定をこの配布物で変更しない。
+配置先の新しいセッションで読み込みと応答言語を確認する。指示による運用であり、すべての出力の強制やcommit時の自動検査は行わない。
+
+Claude Codeのcloudでrepo設定が使われる範囲はセッション形態に依存する。単一repoのセッションと、multi-repo/project cloudのセッションを同一視しない。
+一般のClaudeチャットや設定ファイルを読み込まない実行環境への適用は保証しない。Codexでも`AGENTS.md`を読み込む対応環境と対象ディレクトリを確認する。
+仕様は[Claudeのlanguage設定](https://code.claude.com/docs/en/settings-reference#language)、[cloudでの設定範囲](https://code.claude.com/docs/en/settings#settings-in-cloud-sessions)、[CodexのAGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)を参照。
+
 ## 呼び出し方
 
 | 用途 | Claude Code | Codex |
